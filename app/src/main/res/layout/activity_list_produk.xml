@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	tools:context=".listProduk">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+		<com.google.android.material.appbar.AppBarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:elevation="0dp">
+			<androidx.appcompat.widget.Toolbar
+				android:id="@+id/my_toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?colorPrimary">
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:paddingHorizontal="10dp">
+					<ImageView
+						android:id="@+id/backHome"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:src="@drawable/backbutton1"/>
+					<SearchView
+						android:id="@+id/searchView"
+						android:layout_weight="1"
+						android:layout_width="wrap_content"
+						android:layout_height="35dp"
+						android:iconifiedByDefault="false"
+						android:queryHint="Search"
+						android:background="@drawable/style_search"
+						android:layout_marginHorizontal="10dp"
+						android:layout_gravity="center_vertical"/>
+
+					<ImageButton
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:scaleType="fitXY"
+						android:layout_gravity="center_vertical"
+						android:layout_marginRight="10dp"
+						android:background="@drawable/ic_baseline_shopping_cart_24" />
+				</LinearLayout>
+
+			</androidx.appcompat.widget.Toolbar>
+		</com.google.android.material.appbar.AppBarLayout>
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+			<androidx.recyclerview.widget.RecyclerView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/recycler_view1"
+				tools:listitem="@layout/produk_list_item"/>
+		</RelativeLayout>
+	</LinearLayout>
+</RelativeLayout>

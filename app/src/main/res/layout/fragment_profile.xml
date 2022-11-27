@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	tools:context=".Store">
+
+	<!-- TODO: Update blank fragment layout -->
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_constraintBottom_toTopOf="@+id/bottomNavigation">
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginBottom="?attr/actionBarSize">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<RelativeLayout
+					android:id="@+id/layout1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="227dp"
+						android:src="@drawable/kotak" />
+
+					<TextView
+						android:id="@+id/nama_user"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:paddingTop="40dp"
+						android:text="Shawn Mendes"
+						android:textColor="@color/white"
+						android:textSize="30sp"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/pekerjaan"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/nama_user"
+						android:gravity="center"
+						android:padding="10dp"
+						android:text="Fashion Designer"
+						android:textColor="@color/white"
+						android:textSize="15sp" />
+
+					<TextView
+						android:id="@+id/alamat"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/pekerjaan"
+						android:gravity="center"
+						android:paddingTop="25dp"
+						android:text="Rumah Tersayang"
+						android:textColor="@color/white"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+					<ImageView
+						android:id="@+id/background_foto"
+						android:layout_width="match_parent"
+						android:layout_height="227dp"
+						android:src="@drawable/profile1" />
+
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="227dp"
+						android:layout_below="@id/alamat"
+						android:layout_marginTop="-17dp"
+						android:foregroundGravity="center"
+						android:paddingTop="30dp"
+						android:src="@drawable/frame" />
+
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="200dp"
+						android:layout_below="@id/alamat"
+						android:layout_marginTop="-19dp"
+						android:foregroundGravity="center"
+						android:paddingTop="50dp"
+						android:src="@drawable/foto_profile" />
+				</RelativeLayout>
+				<Button
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="end"
+					android:background="@drawable/button_click"
+					android:text="Check Order"
+					android:layout_marginEnd="25dp"/>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:text="Username "
+						android:textStyle="bold"
+						android:padding="15dp"
+						android:textSize="20sp"
+						android:textColor="@color/black"/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Shawn Mendes"
+						android:padding="15dp"
+						android:textSize="20sp"/>
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:text="Email "
+						android:textStyle="bold"
+						android:padding="15dp"
+						android:textSize="20sp"
+						android:textColor="@color/black"/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="shawn.mendes@gmail.com"
+						android:padding="15dp"
+						android:textSize="20sp"/>
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:text="No Telepon :"
+						android:textStyle="bold"
+						android:padding="15dp"
+						android:textSize="20sp"
+						android:textColor="@color/black"/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="+62-8788-5789-781"
+						android:padding="15dp"
+						android:textSize="20sp"/>
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:text="Gender :"
+						android:textStyle="bold"
+						android:padding="15dp"
+						android:textSize="20sp"
+						android:textColor="@color/black"/>
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Male"
+						android:padding="15dp"
+						android:textSize="20sp"/>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:padding="10dp"
+					android:orientation="vertical">
+
+					<Button
+						android:id="@+id/register_seller"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:width="300dp"
+						android:drawableLeft="@drawable/ic_baseline_create_new_folder_24"
+						android:text="Register As a Seller"
+						android:background="@drawable/button_click"
+						android:layout_gravity="center_horizontal"/>
+
+				</LinearLayout>
+
+
+			</LinearLayout>
+
+
+		</ScrollView>
+	</RelativeLayout>
+</FrameLayout>
