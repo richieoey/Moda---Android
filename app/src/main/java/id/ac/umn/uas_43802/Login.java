@@ -1,74 +1,78 @@
 package id.ac.umn.uas_43802;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import id.ac.umn.uas_43802.databinding.ActivityLoginBinding;
+
 
 public class Login extends AppCompatActivity {
 
-	ImageView backBtn;
-	EditText edEmail, edPassword;
-	ProgressBar progres;
-	TextView tvLogin;
-	CardView loginCrd;
+	private ActivityLoginBinding binding;
+	private FirebaseAuth mAuth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		binding = ActivityLoginBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+		binding.progressBar.setVisibility(View.INVISIBLE);
+		// ...
+		// Initialize Firebase Auth
+		mAuth = FirebaseAuth.getInstance();
 
-		backBtn = findViewById(R.id.backLogin);
-		edEmail = findViewById(R.id.emailLogin);
-		edPassword = findViewById(R.id.passLogin);
-		progres = findViewById(R.id.progressBar);
-		tvLogin = findViewById(R.id.loginText);
-		loginCrd = findViewById(R.id.loginBtn);
+		binding.backLogin.setOnClickListener(view -> Login.super.onBackPressed());
 
-		progres.setVisibility(View.INVISIBLE);
+		binding.loginBtn.setOnClickListener(view -> {
+			if (TextUtils.isEmpty(binding.emailLogin.getText().toString()) || TextUtils.isEmpty(binding.passLogin.getText().toString()) ) {
+				Toast.makeText(Login.this, "Username/Password Cannot Be Empty!", Toast.LENGTH_SHORT).show();
+			} else {
+				binding.loginText.setText("Submitting!");
+				binding.progressBar.setVisibility(View.VISIBLE);
 
-		backBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Login.super.onBackPressed();
+				new Handler(Looper.getMainLooper()).postDelayed(() -> {
+					mAuth.signInWithEmailAndPassword(binding.emailLogin.getText().toString(),binding.passLogin.getText().toString())
+							.addOnCompleteListener(task -> {
+								if(task.isSuccessful() && task.getResult()!=null){
+									if(task.getResult().getUser() != null){
+										reload();
+									} else {
+										showToast("Login gagal");
+									}
+								}
+							});
+
+				}, 4000);
 			}
 		});
 
-		loginCrd.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (TextUtils.isEmpty(edEmail.getText().toString()) || TextUtils.isEmpty(edPassword.getText().toString()) ) {
-					Toast.makeText(Login.this, "Username/Password Cannot Be Empty!", Toast.LENGTH_SHORT).show();
-				} else {
-					tvLogin.setText("Submitting!");
-					progres.setVisibility(View.VISIBLE);
+	}
+	//Menunjukkan toast
+	private void showToast(String message){
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	}
 
-					new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							tvLogin.setText("Success");
-							loginCrd.setCardBackgroundColor(Color.parseColor("#34A853"));
-							progres.setVisibility(View.INVISIBLE);
+	private void reload(){
+		startActivity(new Intent(getApplicationContext(), HomeUser.class));
+	}
 
-							startActivity(new Intent(getApplicationContext(), HomeUser.class));
-						}
-					}, 4000);
-				}
-			}
-		});
-
-
+	@Override
+	public void onStart() {
+		super.onStart();
+		// Check if user is signed in (non-null) and update UI accordingly.
+		FirebaseUser currentUser = mAuth.getCurrentUser();
+		if(currentUser != null){
+			//reload();
+		}
 	}
 }

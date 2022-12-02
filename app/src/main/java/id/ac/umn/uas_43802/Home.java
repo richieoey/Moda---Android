@@ -107,7 +107,6 @@ public class Home extends Fragment {
         timer.scheduleAtFixedRate(new The_slide_timer(),2000,5000);
         tabLayout.setupWithViewPager(page,true);
 
-
         return view;
     }
 

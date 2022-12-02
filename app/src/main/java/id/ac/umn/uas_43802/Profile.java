@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Profile#newInstance} factory method to
@@ -26,6 +28,7 @@ public class Profile extends Fragment {
     private String mParam1;
     private String mParam2;
 	Button btnRegis;
+    Button btnLogout;
 
     public Profile() {
         // Required empty public constructor
@@ -61,19 +64,19 @@ public class Profile extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_profile,
-				container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		btnRegis = (Button) rootView.findViewById(R.id.register_seller);
-		btnRegis.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				goRegisterSeller();
-			}
-		});
+        btnLogout = (Button) rootView.findViewById(R.id.logout);
+		btnRegis.setOnClickListener(v -> goRegisterSeller());
+
+        btnLogout.setOnClickListener(v-> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getActivity().getApplicationContext(), Login.class));
+        });
 		return rootView;
 	}
+
 
 	public void goRegisterSeller() {
 		Intent intent = new Intent(getActivity(), register_seller.class);

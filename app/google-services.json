@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "463174871608",
+    "firebase_url": "https://moda-65a6b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "moda-65a6b",
+    "storage_bucket": "moda-65a6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463174871608:android:ff96f515674551f6e4d4cd",
+        "android_client_info": {
+          "package_name": "id.ac.umn.uas_43802"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463174871608-tdm9ameir59dsna6mmefgf3qeqluikru.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTz78EvxvOga56zSBACc1M6UxPTMuvWqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463174871608-tdm9ameir59dsna6mmefgf3qeqluikru.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,6 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
 public class SignUpPin extends AppCompatActivity {
 
 	ImageView backBtn;
@@ -24,11 +29,15 @@ public class SignUpPin extends AppCompatActivity {
 	TextView tvSubmit;
 	CardView submitCrd;
 	EditText ed1, ed2, ed3, ed4;
+
+	FirebaseFirestore db = FirebaseFirestore.getInstance();
+	String value;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up_pin);
-
+		//preferenceManager = new PreferenceManager(getApplicationContext());
 		backBtn = findViewById(R.id.backbutton);
 		submitCrd = findViewById(R.id.submitBtn);
 		tvSubmit = findViewById(R.id.submitText);
@@ -37,6 +46,13 @@ public class SignUpPin extends AppCompatActivity {
 		ed2 = findViewById(R.id.pin2);
 		ed3 = findViewById(R.id.pin3);
 		ed4 = findViewById(R.id.pin4);
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			value = extras.getString("key");
+			//The key argument here must match that used in the other activity
+		}
+
 
 		submitBar.setVisibility(View.INVISIBLE);
 
@@ -55,15 +71,17 @@ public class SignUpPin extends AppCompatActivity {
 				} else {
 					tvSubmit.setText("Submitting!");
 					submitBar.setVisibility(View.VISIBLE);
-
+					String pin = ed1.getText().toString()+ed2.getText().toString()+ed3.getText().toString()+ed4.getText().toString();
 					new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 						@Override
 						public void run() {
+							//Update database document pin
+							db.collection("user").document(value).update("pin", pin);
 							tvSubmit.setText("Success");
 							submitCrd.setCardBackgroundColor(Color.parseColor("#34A853"));
 							submitBar.setVisibility(View.INVISIBLE);
 
-							startActivity(new Intent(getApplicationContext(), MainActivity.class));
+							startActivity(new Intent(getApplicationContext(), Login.class));
 						}
 					}, 4000);
 				}

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 		tvSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(MainActivity.this, SignUp.class);
+				Intent intent = new Intent(getApplicationContext(), SignUp.class);
 				startActivity(intent);
 			}
 		});
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 		SignInBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent signin = new Intent(MainActivity.this, Login.class);
+				Intent signin = new Intent(getApplicationContext(), Login.class);
 				startActivity(signin);
 			}
 		});
