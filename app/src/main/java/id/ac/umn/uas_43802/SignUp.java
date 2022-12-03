@@ -1,9 +1,14 @@
 package id.ac.umn.uas_43802;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -15,10 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,12 +43,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import id.ac.umn.uas_43802.databinding.ActivitySignUpBinding;
 import id.ac.umn.uas_43802.utilities.Constants;
@@ -47,7 +64,10 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 	DatePickerDialog datePickerDialog;
 	SimpleDateFormat dateFormatter;
 
+	private static final int MY_CAMERA_REQUEST_CODE = 100;
+
 	private ActivitySignUpBinding binding;
+	ActivityResultLauncher<Intent> activityResultLauncher;
 	Uri imageUri;
 
 	StorageReference storageReference;
@@ -56,6 +76,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 	private String url;
 	private FirebaseAuth mAuth;
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,6 +107,19 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 	}
 
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == MY_CAMERA_REQUEST_CODE) {
+			if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	private void setListeners(){
 		// Back Button
 		binding.backbutton.setOnClickListener(v -> onBackPressed());
@@ -110,85 +144,104 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 			}
 		});
 
+		// CAMERA INTENT
+		binding.cameraBtn.setOnClickListener(view -> {
+			if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+				requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+			}
+			Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			activityResultLauncher.launch(takePictureIntent);
+		});
+
+
+		activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+			Bundle extras = result.getData().getExtras();
+			Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+				WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(imageBitmap,
+						imageBitmap.getHeight(),imageBitmap.getWidth(), false).copy(
+								Bitmap.Config.RGB_565,true ));
+
+				Bitmap bm = result1.get();
+			imageUri = saveImage(bm, SignUp.this);
+			binding.profile.setImageURI(imageUri);
+			binding.addImageText.setVisibility(View.GONE);
+		});
+
+
 		// Continue Sign Up
-		binding.continuesignup.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (TextUtils.isEmpty(binding.fullname.getText().toString()) || TextUtils.isEmpty(imageUri.toString()) || TextUtils.isEmpty(binding.email.getText().toString()) || TextUtils.isEmpty(binding.phonenumber.getText().toString()) || TextUtils.isEmpty(binding.password.getText().toString()) ) {
-					Toast.makeText(SignUp.this, "Empty field not allowed!", Toast.LENGTH_SHORT).show();
-				} else {
-					FirebaseFirestore database = FirebaseFirestore.getInstance();
-					HashMap<String, Object> user = new HashMap<>();
+		binding.continuesignup.setOnClickListener(view -> {
+			if (TextUtils.isEmpty(binding.fullname.getText().toString()) || TextUtils.isEmpty(imageUri.toString()) || TextUtils.isEmpty(binding.email.getText().toString()) || TextUtils.isEmpty(binding.phonenumber.getText().toString()) || TextUtils.isEmpty(binding.password.getText().toString()) ) {
+				Toast.makeText(SignUp.this, "Empty field not allowed!", Toast.LENGTH_SHORT).show();
+			} else {
+				FirebaseFirestore database = FirebaseFirestore.getInstance();
+				HashMap<String, Object> user = new HashMap<>();
 
-					// Authentication Firebase
-					mAuth.createUserWithEmailAndPassword(binding.email.getText().toString(),binding.password.getText().toString())
-							.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-								@Override
-								public void onComplete(@NonNull Task<AuthResult> task) {
-									if(task.isSuccessful() && task.getResult() != null){
-										FirebaseUser firebaseUser = task.getResult().getUser();
-										if(firebaseUser != null) {
-											Log.d("UID", firebaseUser.getUid());
-											user.put("uid", firebaseUser.getUid());
-											UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-													.setDisplayName(binding.fullname.getText().toString())
-													.build();
-											firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
-												@Override
-												public void onComplete(@NonNull Task<Void> task) {
-													//reload();
-												}
-											});
-										} else{
-											showToast("Register gagal");
+				// Authentication Firebase
+				mAuth.createUserWithEmailAndPassword(binding.email.getText().toString(),binding.password.getText().toString())
+						.addOnCompleteListener(task -> {
+							if(task.isSuccessful() && task.getResult() != null){
+								FirebaseUser firebaseUser = task.getResult().getUser();
+								if(firebaseUser != null) {
+									Log.d("UID", firebaseUser.getUid());
+									user.put("uid", firebaseUser.getUid());
+									UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+											.setDisplayName(binding.fullname.getText().toString())
+											.build();
+									firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
+										@Override
+										public void onComplete(@NonNull Task<Void> task) {
+											//reload();
 										}
-									} else {
-										Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-									}
+									});
+								} else{
+									showToast("Register gagal");
 								}
-							});
+							} else {
+								Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+							}
+						});
 
-					user.put(Constants.KEY_NAME, binding.fullname.getText().toString());
-					user.put(Constants.KEY_EMAIL, binding.email.getText().toString());
-					user.put(Constants.KEY_DATE, binding.date.getText().toString());
-					user.put(Constants.KEY_GENDER, binding.spinner.getSelectedItem().toString());
+				user.put(Constants.KEY_NAME, binding.fullname.getText().toString());
+				user.put(Constants.KEY_EMAIL, binding.email.getText().toString());
+				user.put(Constants.KEY_DATE, binding.date.getText().toString());
+				user.put(Constants.KEY_GENDER, binding.spinner.getSelectedItem().toString());
 
-					user.put(Constants.KEY_PHONE, binding.phonenumber.getText().toString());
-					user.put(Constants.KEY_PASSWORD, binding.password.getText().toString());
-					user.put(Constants.KEY_PIN, "");
-					user.put(Constants.KEY_IMAGE, imageUri.toString());
-					//Upload Image
-					StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-					fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-						@Override
-						public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-							fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-								@Override
-								public void onSuccess(Uri uri) {
-									url = uri.toString();
+				user.put(Constants.KEY_PHONE, binding.phonenumber.getText().toString());
+				user.put(Constants.KEY_PASSWORD, binding.password.getText().toString());
+				user.put(Constants.KEY_PIN, "");
+				user.put(Constants.KEY_IMAGE, imageUri.toString());
+				user.put("uid", "");
+				user.put("photoUrl", "");
+				//Upload Image
+				StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+				fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+					@Override
+					public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+						fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+							@Override
+							public void onSuccess(Uri uri) {
+								url = uri.toString();
 
-									Log.d("url", url);
+								Log.d("url", url);
+								Log.d("Uri", imageUri.toString());
+							}
+						});
+					}
+				});
 
-									//Log.d("Uri", imageUri.toString());
-								}
-							});
-						}
-					});
-
-					database.collection(Constants.KEY_COLLECTION_USERS)
-							.add(user)
-							.addOnSuccessListener(documentReference -> {
-								docID = documentReference.getId();
-								Log.d( "test", docID);
-								Intent pin = new Intent(SignUp.this, SignUpPin.class);
-								pin.putExtra("key", docID);
-								//pin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-								startActivity(pin);
-							})
-							.addOnFailureListener(exception -> {
-								showToast(exception.getMessage());
-							});
-				}
+				database.collection(Constants.KEY_COLLECTION_USERS)
+						.add(user)
+						.addOnSuccessListener(documentReference -> {
+							docID = documentReference.getId();
+							Intent pin = new Intent(SignUp.this, SignUpPin.class);
+							pin.putExtra("key", docID);
+							pin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+							startActivity(pin);
+						})
+						.addOnFailureListener(exception -> {
+							showToast(exception.getMessage());
+						});
 			}
 		});
 
@@ -219,6 +272,25 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 				}
 			}
 	);
+
+	private Uri saveImage(Bitmap image, Context context) {
+		File imagesFolder = new File(context.getCacheDir(), "images");
+		Uri uri = null;
+		try {
+			imagesFolder.mkdirs();
+			File file = new File(imagesFolder, System.currentTimeMillis() + ".jpg");
+			FileOutputStream stream = new FileOutputStream(file);
+			image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+			stream.flush();
+			stream.close();
+			uri = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", file);
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return uri;
+	}
 
 	private void reload(){
 		startActivity(new Intent(getApplicationContext(), MainActivity.class));
