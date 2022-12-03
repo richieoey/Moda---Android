@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/activity_home_user.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/activity_register_seller.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/activity_sign_up.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/activity_sign_up_pin.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/fragment_home.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/fragment_profile.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/fragment_store.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/jezre/AndroidStudioProjects/Moda---Android/app/src/main/res/layout/store_item_list.xml" value="0.14130434782608695" />
         <entry key="app/src/main/res/drawable/background_icon.xml" value="0.1925" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.13196555217831812" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.15374873353596757" />

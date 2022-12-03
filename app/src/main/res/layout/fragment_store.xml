@@ -15,59 +15,81 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
+
 			<com.google.android.material.appbar.AppBarLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:elevation="0dp">
+
 				<androidx.appcompat.widget.Toolbar
 					android:id="@+id/my_toolbar"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:background="?colorPrimary">
+
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
 						android:paddingHorizontal="10dp">
+
 						<TextView
 							android:id="@+id/moda"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
 							android:text="MODA"
 							android:textColor="@color/white"
-							android:textSize="25dp"
-							android:layout_gravity="center_vertical"/>
+							android:textSize="25dp" />
+
 						<SearchView
 							android:id="@+id/searchView"
-							android:layout_weight="1"
 							android:layout_width="wrap_content"
 							android:layout_height="35dp"
-							android:iconifiedByDefault="false"
-							android:queryHint="Search"
-							android:background="@drawable/style_search"
+							android:layout_gravity="center_vertical"
 							android:layout_marginHorizontal="10dp"
-							android:layout_gravity="center_vertical"/>
+							android:layout_weight="1"
+							android:background="@drawable/style_search"
+							android:iconifiedByDefault="false"
+							android:queryHint="Search" />
 
 						<ImageButton
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:scaleType="fitXY"
 							android:layout_gravity="center_vertical"
 							android:layout_marginRight="10dp"
-							android:background="@drawable/ic_baseline_shopping_cart_24" />
+							android:background="@drawable/ic_baseline_shopping_cart_24"
+							android:scaleType="fitXY" />
 					</LinearLayout>
 
 				</androidx.appcompat.widget.Toolbar>
 			</com.google.android.material.appbar.AppBarLayout>
+
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
+				<RelativeLayout
+					android:layout_width="200dp"
+					android:layout_height="match_parent">
+
 				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recycler_view"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					android:id="@+id/recycler_view"
-					tools:listitem="@layout/store_item_list"/>
+					tools:listitem="@layout/store_item_list" />
 			</RelativeLayout>
+				<RelativeLayout
+					android:layout_width="200dp"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="205dp">
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/recycler_view1"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						tools:listitem="@layout/store_item_list" />
+				</RelativeLayout>
+			</RelativeLayout>
+
 		</LinearLayout>
 	</RelativeLayout>
 
