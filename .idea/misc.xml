@@ -5,14 +5,20 @@
       <map>
         <entry key="app/src/main/res/drawable/background_icon.xml" value="0.1925" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.13196555217831812" />
+        <entry key="app/src/main/res/layout/activity_home_user.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/activity_list_cart.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/activity_list_produk.xml" value="0.290625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/activity_produk_detail.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/activity_register_seller.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25177304964539005" />
-        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.13196555217831812" />
+        <entry key="app/src/main/res/layout/activity_sign_up_pin.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/carousel_page.xml" value="0.2078804347826087" />
+        <entry key="app/src/main/res/layout/chat_item_list.xml" value="0.2078804347826087" />
+        <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.29809265136718754" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15374873353596757" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/product_card.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/produk_list_item.xml" value="0.15374873353596757" />

@@ -81,7 +81,8 @@ public class SignUpPin extends AppCompatActivity {
 							submitCrd.setCardBackgroundColor(Color.parseColor("#34A853"));
 							submitBar.setVisibility(View.INVISIBLE);
 
-							startActivity(new Intent(getApplicationContext(), Login.class));
+							startActivity(new Intent(getApplicationContext(), MainActivity.class));
+							finish();
 						}
 					}, 4000);
 				}
