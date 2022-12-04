@@ -12,8 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 import id.ac.umn.uas_43802.databinding.ActivityLoginBinding;
+import id.ac.umn.uas_43802.utilities.Constants;
 
 
 public class Login extends AppCompatActivity {
@@ -49,10 +53,14 @@ public class Login extends AppCompatActivity {
 									} else {
 										showToast("Login gagal");
 									}
+								} else {
+									binding.progressBar.setVisibility(View.INVISIBLE);
+									binding.loginText.setText("Login");
+									Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 								}
 							});
 
-				}, 4000);
+				}, 1000);
 			}
 		});
 

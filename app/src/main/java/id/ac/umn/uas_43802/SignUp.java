@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -55,6 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.Future;
 
 import id.ac.umn.uas_43802.databinding.ActivitySignUpBinding;
 import id.ac.umn.uas_43802.utilities.Constants;
@@ -68,13 +70,13 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 	private ActivitySignUpBinding binding;
 	ActivityResultLauncher<Intent> activityResultLauncher;
-	Uri imageUri;
+	private Uri imageUri;
 
 	StorageReference storageReference;
 	private FirebaseStorage storage;
 	private String docID;
-	private String url;
 	private FirebaseAuth mAuth;
+
 
 	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
@@ -125,23 +127,20 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 		binding.backbutton.setOnClickListener(v -> onBackPressed());
 
 		// DATE
-		binding.date.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Calendar newCalendar = Calendar.getInstance();
-				datePickerDialog = new DatePickerDialog(SignUp.this, new DatePickerDialog.OnDateSetListener() {
+		binding.date.setOnClickListener(view -> {
+			Calendar newCalendar = Calendar.getInstance();
+			datePickerDialog = new DatePickerDialog(SignUp.this, new DatePickerDialog.OnDateSetListener() {
 
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						Calendar newDate = Calendar.getInstance();
-						newDate.set(year, monthOfYear, dayOfMonth);
-						binding.date.setText(dateFormatter.format(newDate.getTime()));
-					}
+				@Override
+				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+					Calendar newDate = Calendar.getInstance();
+					newDate.set(year, monthOfYear, dayOfMonth);
+					binding.date.setText(dateFormatter.format(newDate.getTime()));
+				}
 
-				},newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-				datePickerDialog.getDatePicker().setMaxDate(newCalendar.getTimeInMillis());
-				datePickerDialog.show();
-			}
+			},newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+			datePickerDialog.getDatePicker().setMaxDate(newCalendar.getTimeInMillis());
+			datePickerDialog.show();
 		});
 
 		// CAMERA INTENT
@@ -175,7 +174,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 				Toast.makeText(SignUp.this, "Empty field not allowed!", Toast.LENGTH_SHORT).show();
 			} else {
 				FirebaseFirestore database = FirebaseFirestore.getInstance();
-				HashMap<String, Object> user = new HashMap<>();
+				HashMap<String, String> user = new HashMap<>();
 
 				// Authentication Firebase
 				mAuth.createUserWithEmailAndPassword(binding.email.getText().toString(),binding.password.getText().toString())
@@ -183,16 +182,48 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 							if(task.isSuccessful() && task.getResult() != null){
 								FirebaseUser firebaseUser = task.getResult().getUser();
 								if(firebaseUser != null) {
-									Log.d("UID", firebaseUser.getUid());
-									user.put("uid", firebaseUser.getUid());
+									String uid = firebaseUser.getUid();
 									UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
 											.setDisplayName(binding.fullname.getText().toString())
 											.build();
-									firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
-										@Override
-										public void onComplete(@NonNull Task<Void> task) {
-											//reload();
-										}
+
+									firebaseUser.updateProfile(request).addOnCompleteListener(task1 -> {
+										user.put("uid", uid);
+										user.put(Constants.KEY_NAME, binding.fullname.getText().toString());
+										user.put(Constants.KEY_EMAIL, binding.email.getText().toString());
+										user.put(Constants.KEY_DATE, binding.date.getText().toString());
+										user.put(Constants.KEY_GENDER, binding.spinner.getSelectedItem().toString());
+
+										user.put(Constants.KEY_PHONE, binding.phonenumber.getText().toString());
+										user.put(Constants.KEY_PASSWORD, binding.password.getText().toString());
+										user.put(Constants.KEY_PIN, "");
+										user.put(Constants.KEY_IMAGE, "");
+
+										//Upload Image
+										StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+
+										fileRef.putFile(imageUri).addOnCompleteListener(tasks -> {
+													if (tasks.isSuccessful()) {
+														fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+															String url = uri.toString();
+															user.put("photoUrl", url);
+															database.collection(Constants.KEY_COLLECTION_USERS)
+																	.add(user)
+																	.addOnSuccessListener(documentReference -> {
+																		docID = documentReference.getId();
+																		Intent pin = new Intent(SignUp.this, SignUpPin.class);
+																		pin.putExtra("key", docID);
+																		pin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+																		startActivity(pin);
+																	})
+																	.addOnFailureListener(exception -> {
+																		showToast(exception.getMessage());
+																	});
+														});
+													} else {
+														Toast.makeText(this, tasks.getException().getMessage(), Toast.LENGTH_SHORT).show();
+													}
+												});
 									});
 								} else{
 									showToast("Register gagal");
@@ -202,49 +233,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 							}
 						});
 
-				user.put(Constants.KEY_NAME, binding.fullname.getText().toString());
-				user.put(Constants.KEY_EMAIL, binding.email.getText().toString());
-				user.put(Constants.KEY_DATE, binding.date.getText().toString());
-				user.put(Constants.KEY_GENDER, binding.spinner.getSelectedItem().toString());
-
-				user.put(Constants.KEY_PHONE, binding.phonenumber.getText().toString());
-				user.put(Constants.KEY_PASSWORD, binding.password.getText().toString());
-				user.put(Constants.KEY_PIN, "");
-				user.put(Constants.KEY_IMAGE, imageUri.toString());
-				user.put("uid", "");
-				user.put("photoUrl", "");
-				//Upload Image
-				StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
-				fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-					@Override
-					public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-						fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-							@Override
-							public void onSuccess(Uri uri) {
-								url = uri.toString();
-
-								Log.d("url", url);
-								Log.d("Uri", imageUri.toString());
-							}
-						});
-					}
-				});
-
-				database.collection(Constants.KEY_COLLECTION_USERS)
-						.add(user)
-						.addOnSuccessListener(documentReference -> {
-							docID = documentReference.getId();
-							Intent pin = new Intent(SignUp.this, SignUpPin.class);
-							pin.putExtra("key", docID);
-							pin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-							startActivity(pin);
-						})
-						.addOnFailureListener(exception -> {
-							showToast(exception.getMessage());
-						});
 			}
 		});
-
 
 		// Image
 		binding.layoutImage.setOnClickListener(v -> {

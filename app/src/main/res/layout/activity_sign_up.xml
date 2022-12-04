@@ -54,6 +54,7 @@
 						android:layout_marginBottom="@dimen/_10sdp"
 						android:background="@mipmap/ic_launcher_round"
 						app:riv_oval="true"
+						android:scaleType="centerCrop"
 						/>
 
 					<TextView

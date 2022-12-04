@@ -1,30 +1,25 @@
 package id.ac.umn.uas_43802;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
+import java.util.ArrayList;
 
-import java.util.HashMap;
-
-import id.ac.umn.uas_43802.databinding.FragmentChatBinding;
-import id.ac.umn.uas_43802.utilities.Constants;
+import id.ac.umn.uas_43802.adapter.ChatAdapter;
+import id.ac.umn.uas_43802.model.ChatModel;
 
 public class Chat extends Fragment {
 
-    FragmentChatBinding binding;
+    RecyclerView rV;
+    ChatAdapter chatAdapter;
+    ArrayList<ChatModel> data;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,52 +63,30 @@ public class Chat extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentChatBinding binding = FragmentChatBinding.inflate(inflater, container, false);
-        //set variables in Binding
-        //loadUserDetails();
-        getToken();
-        // setListeners();
-        return binding.getRoot();
+       // FragmentChatBinding binding = FragmentChatBinding.inflate(inflater, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        rV = view.findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+        rV.setLayoutManager(layoutManager);
+
+        data = new ArrayList<>();
+        for (int i = 0; i <  ChatData.nama_toko.length; i++){
+            data.add(new ChatModel(
+                    ChatData.gambar_toko[i],
+                    ChatData.nama_toko[i],
+                    ChatData.latest_chat[i]
+            ));
+
+            chatAdapter = new ChatAdapter(data, getContext());
+            rV.setAdapter(chatAdapter);
+        }
+        // Inflate the layout for this fragment
+        return view;
     }
 
 
     private void showToast(String message){
         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void updateToken(String token) {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-                //preferenceManager.getString(Constants.KEY_USER_ID)
-        );
-        documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener(unused -> showToast("Token updated successfully"))
-                .addOnFailureListener(e -> showToast("Unable to update token"));
-    }
-
-    private void getToken() {
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
-    }
-
-    private void signOut() {
-        showToast("Signing out");
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(
-          //preferenceManager.getString(Constants.KEY_USER_ID)
-        );
-
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates)
-                .addOnSuccessListener(unused -> {
-                    //preferenceManager.clear();
-                    startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
-                })
-                .addOnFailureListener(e -> showToast("Unable to sign out"));
-    }
-
-    private void setListeners(){
-        binding.imageSignOut.setOnClickListener(v -> signOut());
     }
 
 }

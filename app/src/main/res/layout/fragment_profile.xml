@@ -50,7 +50,7 @@
 						android:layout_below="@+id/nama_user"
 						android:gravity="center"
 						android:padding="10dp"
-						android:text="Fashion Designer"
+						android:text="User"
 						android:textColor="@color/white"
 						android:textSize="15sp" />
 
@@ -82,6 +82,7 @@
 						android:src="@drawable/frame" />
 
 					<ImageView
+						android:id="@+id/profileAtas"
 						android:layout_width="match_parent"
 						android:layout_height="200dp"
 						android:layout_below="@id/alamat"
@@ -111,6 +112,7 @@
 						android:textSize="20sp"
 						android:textColor="@color/black"/>
 					<TextView
+						android:id="@+id/username"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:text="Shawn Mendes"
@@ -131,6 +133,7 @@
 						android:textSize="20sp"
 						android:textColor="@color/black"/>
 					<TextView
+						android:id="@+id/email"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:text="shawn.mendes@gmail.com"
@@ -151,6 +154,7 @@
 						android:textSize="20sp"
 						android:textColor="@color/black"/>
 					<TextView
+						android:id="@+id/phonenumber"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:text="+62-8788-5789-781"
@@ -171,6 +175,7 @@
 						android:textSize="20sp"
 						android:textColor="@color/black"/>
 					<TextView
+						android:id="@+id/gender"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:text="Male"
