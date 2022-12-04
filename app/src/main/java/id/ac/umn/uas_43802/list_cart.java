@@ -1,59 +1,79 @@
 package id.ac.umn.uas_43802;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import id.ac.umn.uas_43802.databinding.ActivityListCartBinding;
+import id.ac.umn.uas_43802.databinding.ActivityLoginBinding;
+import id.ac.umn.uas_43802.databinding.FragmentProfileBinding;
+import id.ac.umn.uas_43802.model.ProductModel;
+
 public class list_cart extends AppCompatActivity {
 
-	ImageView rounded;
-	ImageView ivPlus;
-	ImageView ivMinus;
-	TextView tvCounter;
-	ImageView ivBack;
+	private ActivityListCartBinding binding;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_cart);
-		rounded = (ImageView) findViewById(R.id.rounded);
-		rounded.setBackgroundResource(R.drawable.rounded);
+		binding = ActivityListCartBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+		ArrayList<ProductModel> product = new ArrayList<ProductModel>();
 
-		ivPlus = findViewById(R.id.plus);
-		ivMinus = findViewById(R.id.minus);
-		tvCounter = findViewById(R.id.counter);
-		ivBack = findViewById(R.id.backbtn);
 
-		ivPlus.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				String str = tvCounter.getText().toString();
-				Integer counter = Integer.valueOf(str);
-				counter = counter + 1;
-				String strCounter = counter.toString();
-				tvCounter.setText(strCounter);
-			}
-		});
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		FirebaseFirestore db = FirebaseFirestore.getInstance();
+		// Create a reference to the cities collection
+		CollectionReference cartRef = db.collection("cart");
 
-		ivMinus.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				String str = tvCounter.getText().toString();
-				Integer counter = Integer.valueOf(str);
-				counter = counter - 1;
-				String strCounter = counter.toString();
-				tvCounter.setText(strCounter);
-			}
-		});
+		Task<DocumentSnapshot> query = cartRef.document(user.getUid())
+				.get()
+				.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
-		ivBack.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+						DocumentSnapshot data = task.getResult();
+						Map<String, Object> result =  task.getResult().getData();
+
+						for (Map.Entry<String, Object> entry : result.entrySet()) {
+							Map<String, Object> hasil = (Map<String, Object>) entry.getValue();
+							HashMap<String, String> produk = (HashMap<String, String>) hasil.get("product");
+							String nama = produk.get("name").toString();
+							Log.d("cart", produk.get("name").toString());
+						}
+					}
+				});
+
+		binding.backbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				list_cart.super.onBackPressed();
 			}
 		});
+
 	}
 }
