@@ -1,7 +1,9 @@
 package id.ac.umn.uas_43802;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,8 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +32,9 @@ import java.util.ArrayList;
 public class Store extends Fragment {
 	RecyclerView rV;
 	StoreAdapter storeAdapter;
-	ArrayList<StoreModel> data;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private List<StoreModel> list = new ArrayList<>();
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +43,6 @@ public class Store extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public Store() {
         // Required empty public constructor
     }
@@ -59,27 +72,60 @@ public class Store extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getData();
+    }
+
+    private void getData(){
+        db.collection("toko")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        list.clear();
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()){
+                                StoreModel store = new StoreModel(document.getString("name"), document.getData().get("image").toString(), document.getString("id"));
+                                store.setId(document.getId());
+                                list.add(store);
+                            }
+                            storeAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_store, container, false);
-		rV = view.findViewById(R.id.recycler_view);
+		rV = view.findViewById(R.id.recycler_view1);
 		RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
 		rV.setLayoutManager(layoutManager);
 
-		data = new ArrayList<>();
-		for (int i = 0; i < StoreData.nameStore.length; i++){
-			data.add(new StoreModel(
-					StoreData.nameStore[i],
-					StoreData.store[i]
-			));
-
-			storeAdapter = new StoreAdapter(data);
-			rV.setAdapter(storeAdapter);
-		}
+//		data = new ArrayList<>();
+//		for (int i = 0; i < StoreData.nameStore.length; i++){
+//			data.add(new StoreModel(
+//					StoreData.nameStore[i],
+//					StoreData.store[i]
+//			));
+//
+//			storeAdapter = new StoreAdapter(data);
+//			rV.setAdapter(storeAdapter);
+//		}
+        getData();
         // Inflate the layout for this fragment
         return view;
+    }
+
+    public void setId(String id) {
     }
 }
