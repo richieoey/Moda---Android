@@ -13,10 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> {
 
-	ArrayList<StoreModel> dataStore;
+	private Context context;
+	private List<StoreModel> list;
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		TextView tvNama;
@@ -29,8 +31,9 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
 		}
 	}
 
-	StoreAdapter(ArrayList<StoreModel> data){
-		this.dataStore = data;
+	public StoreAdapter(Context context, List<StoreModel> list){
+		this.context = context;
+		this.list = list;
 	}
 
 	@NonNull
@@ -45,13 +48,13 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.ViewHolder> 
 		TextView txtNama = holder.tvNama;
 		ImageView ivStore = holder.imgStore;
 
-		txtNama.setText(dataStore.get(position).getName());
-		ivStore.setImageResource(dataStore.get(position).getImage());
+		txtNama.setText(list.get(position).getName());
+//		ivStore.setImageResource(list.get(position).getImage());
 	}
 
 	@Override
 	public int getItemCount() {
-		return dataStore.size();
+		return list.size();
 	}
 
 }
