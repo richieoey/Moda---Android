@@ -11,6 +11,36 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_constraintBottom_toTopOf="@+id/bottomNavigation">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<com.google.android.material.appbar.AppBarLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:elevation="0dp">
+				<androidx.appcompat.widget.Toolbar
+					android:id="@+id/my_toolbar"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:background="?colorPrimary">
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:paddingHorizontal="10dp">
+					<TextView
+						android:id="@+id/moda"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Profile"
+						android:textColor="@color/white"
+						android:textSize="30dp"
+						android:layout_gravity="center"/>
+
+
+				</androidx.appcompat.widget.Toolbar>
+			</com.google.android.material.appbar.AppBarLayout>
+
 		<ScrollView
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -21,209 +51,178 @@
 				android:layout_height="match_parent"
 				android:layout_gravity="center_horizontal"
 				android:orientation="vertical">
-
-				<RelativeLayout
-					android:id="@+id/layout1"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
-
-					<ImageView
-						android:layout_width="match_parent"
-						android:layout_height="227dp"
-						android:src="@drawable/kotak" />
-
-					<TextView
-						android:id="@+id/nama_user"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:gravity="center"
-						android:paddingTop="40dp"
-						android:text="Shawn Mendes"
-						android:textColor="@color/white"
-						android:textSize="30sp"
-						android:textStyle="bold" />
-
-					<TextView
-						android:id="@+id/pekerjaan"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_below="@+id/nama_user"
-						android:gravity="center"
-						android:padding="10dp"
-						android:text="User"
-						android:textColor="@color/white"
-						android:textSize="15sp" />
-
-					<TextView
-						android:id="@+id/alamat"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_below="@id/pekerjaan"
-						android:gravity="center"
-						android:paddingTop="25dp"
-						android:text="Rumah Tersayang"
-						android:textColor="@color/white"
-						android:textSize="20sp"
-						android:textStyle="bold" />
-
-					<ImageView
-						android:id="@+id/background_foto"
-						android:layout_width="match_parent"
-						android:layout_height="227dp"
-						android:src="@drawable/profile1" />
-
-					<ImageView
-						android:layout_width="match_parent"
-						android:layout_height="227dp"
-						android:layout_below="@id/alamat"
-						android:layout_marginTop="-17dp"
-						android:foregroundGravity="center"
-						android:paddingTop="30dp"
-						android:src="@drawable/frame" />
-
-					<ImageView
-						android:id="@+id/profileAtas"
-						android:layout_width="match_parent"
-						android:layout_height="200dp"
-						android:layout_below="@id/alamat"
-						android:layout_marginTop="-19dp"
-						android:foregroundGravity="center"
-						android:paddingTop="50dp"
-						android:src="@drawable/foto_profile" />
-				</RelativeLayout>
-				<Button
+				<FrameLayout
+					android:id="@+id/layoutgmbr"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="end"
-					android:background="@drawable/button_click"
-					android:text="Check Order"
-					android:layout_marginEnd="25dp"/>
+					android:layout_gravity="center"
+					>
+
+					<com.makeramen.roundedimageview.RoundedImageView
+						android:id="@+id/profileImage"
+						android:layout_width="@dimen/_150sdp"
+						android:layout_height="@dimen/_150sdp"
+						android:layout_gravity="center"
+						android:layout_marginTop="@dimen/_20sdp"
+						android:layout_marginBottom="@dimen/_20sdp"
+						android:background="@drawable/foto_profile"
+						app:riv_oval="true"
+						android:scaleType="fitXY"
+						/>
+
+				</FrameLayout>
+
 				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-					<TextView
-						android:layout_width="160dp"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_gravity="center"
+					android:layout_marginTop="@dimen/_10sdp"
+					android:layout_marginBottom="@dimen/_10sdp">
+
+					<Button
+						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="Username "
-						android:textStyle="bold"
-						android:padding="15dp"
-						android:textSize="20sp"
-						android:textColor="@color/black"/>
-					<TextView
-						android:id="@+id/username"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="Shawn Mendes"
-						android:padding="15dp"
-						android:textSize="20sp"/>
-				</LinearLayout>
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-					<TextView
-						android:layout_width="160dp"
-						android:layout_height="wrap_content"
-						android:text="Email "
-						android:textStyle="bold"
-						android:padding="15dp"
-						android:textSize="20sp"
-						android:textColor="@color/black"/>
-					<TextView
-						android:id="@+id/email"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="shawn.mendes@gmail.com"
-						android:padding="15dp"
-						android:textSize="20sp"/>
-				</LinearLayout>
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-					<TextView
-						android:layout_width="160dp"
-						android:layout_height="wrap_content"
-						android:text="No Telepon :"
-						android:textStyle="bold"
-						android:padding="15dp"
-						android:textSize="20sp"
-						android:textColor="@color/black"/>
-					<TextView
-						android:id="@+id/phonenumber"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="+62-8788-5789-781"
-						android:padding="15dp"
-						android:textSize="20sp"/>
-				</LinearLayout>
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal"
-					android:layout_gravity="center">
-					<TextView
-						android:layout_width="160dp"
-						android:layout_height="wrap_content"
-						android:text="Gender :"
-						android:textStyle="bold"
-						android:padding="15dp"
-						android:textSize="20sp"
-						android:textColor="@color/black"/>
-					<TextView
-						android:id="@+id/gender"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="Male"
-						android:padding="15dp"
-						android:textSize="20sp"/>
+						android:layout_gravity="end"
+						android:background="@drawable/button_click"
+						android:gravity="center"
+						android:text="Check Order" />
 				</LinearLayout>
 
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
-					android:padding="10dp"
-					android:orientation="vertical">
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="Username "
+						android:textColor="@color/black"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/username"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="Shawn Mendes"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="Email "
+						android:textColor="@color/black"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/email"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="shawn.mendes@gmail.com"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="No Telepon :"
+						android:textColor="@color/black"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/phonenumber"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="+62-8788-5789-781"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="160dp"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="Gender :"
+						android:textColor="@color/black"
+						android:textSize="20sp"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/gender"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="15dp"
+						android:text="Male"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:orientation="vertical"
+					android:padding="10dp">
 
 					<Button
 						android:id="@+id/register_seller"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
 						android:width="300dp"
-						android:drawableLeft="@drawable/ic_baseline_create_new_folder_24"
-						android:text="Register As a Seller"
 						android:background="@drawable/button_click"
-						android:layout_gravity="center_horizontal"/>
+						android:drawableLeft="@drawable/ic_baseline_create_new_folder_24"
+						android:text="Register As a Seller" />
 
 				</LinearLayout>
+
 				<LinearLayout
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
-					android:padding="10dp"
-					android:orientation="vertical">
+					android:orientation="vertical"
+					android:padding="10dp">
 
 					<Button
 						android:id="@+id/logout"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:width="300dp"
-						android:drawableLeft="@drawable/ic_baseline_create_new_folder_24"
-						android:text="Log Out"
+						android:layout_gravity="end"
 						android:background="@drawable/button_click"
-						android:layout_gravity="center_horizontal"/>
+						android:gravity="center"
+						android:drawableLeft="@drawable/ic_round_logout_24"
+						android:text="Log Out"  />
 
 				</LinearLayout>
-
-
 			</LinearLayout>
-
-
 		</ScrollView>
+		</LinearLayout>
 	</RelativeLayout>
 </FrameLayout>

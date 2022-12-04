@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -30,7 +31,7 @@ import id.ac.umn.uas_43802.model.Carousel_Page_Product;
 public class HomeUser extends AppCompatActivity {
 
 	BottomNavigationView nav;
-
+	//ProgressDialog progressDialog;
 	@SuppressLint("ResourceAsColor")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class HomeUser extends AppCompatActivity {
 						break;
 					case R.id.profile:
 						replaceFragment(new Profile());
+						//progressDialog = new ProgressDialog(HomeUser.this);
 						break;
 				}
 				return true;

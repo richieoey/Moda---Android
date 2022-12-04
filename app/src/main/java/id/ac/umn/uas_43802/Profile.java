@@ -1,5 +1,6 @@
 package id.ac.umn.uas_43802;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +54,7 @@ public class Profile extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    ImageView imageView;
+
     public Profile() {
         // Required empty public constructor
     }
@@ -94,7 +96,8 @@ public class Profile extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a reference to the cities collection
         CollectionReference usersRef = db.collection("user");
-
+        binding.profileImage.mutateBackground(true);
+        binding.profileImage.setOval(true);
         // Create a query against the collection.
         Task<QuerySnapshot> query = usersRef.whereEqualTo("uid", user.getUid())
                 .get()
@@ -104,13 +107,15 @@ public class Profile extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String nama = document.getData().get("name").toString();
-                                binding.namaUser.setText(nama);
                                 binding.username.setText(nama);
 
                                 String email = document.getData().get("email").toString();
                                 binding.email.setText(email);
-//                                imageView = (ImageView) findViewById(R.id.profileAtas);
-//                                Glide.with(this).load(document.getData().get("photoUrl")).into(imageView);
+
+                                RequestOptions options = new RequestOptions();
+                                options.circleCrop();
+
+                                Glide.with(rootView).load(document.getData().get("photoUrl")).apply(options).into(binding.profileImage);
 
                                 String phonenumber = document.getData().get("phone").toString();
                                 binding.phonenumber.setText(phonenumber);
@@ -127,21 +132,6 @@ public class Profile extends Fragment {
                         }
                     }
                 });
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-            Log.d("uidUser", " " + user.getUid());
-        }
 
 		binding.registerSeller.setOnClickListener(v -> goRegisterSeller());
 

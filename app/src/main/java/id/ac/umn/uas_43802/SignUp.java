@@ -200,7 +200,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 										user.put(Constants.KEY_IMAGE, "");
 
 										//Upload Image
-										StorageReference fileRef = FirebaseStorage.getInstance().getReference().child("uploads").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
+										StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
 
 										fileRef.putFile(imageUri).addOnCompleteListener(tasks -> {
 													if (tasks.isSuccessful()) {
