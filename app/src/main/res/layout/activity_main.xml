@@ -34,51 +34,51 @@
 				android:textAlignment="center"
 				android:layout_marginBottom="10sp"/>
 
-			<Button
-				android:id="@+id/facebook"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="20dp"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/lets"
-				android:drawableLeft="@drawable/fb"
-				android:layout_gravity="center"
-				android:width="300dp"
-				android:text="Continue With Facebook"
-				android:background="@drawable/listlogin"
-				/>
+<!--			<Button-->
+<!--				android:id="@+id/facebook"-->
+<!--				android:layout_width="wrap_content"-->
+<!--				android:layout_marginTop="20dp"-->
+<!--				android:layout_height="wrap_content"-->
+<!--				android:layout_below="@id/lets"-->
+<!--				android:drawableLeft="@drawable/fb"-->
+<!--				android:layout_gravity="center"-->
+<!--				android:width="300dp"-->
+<!--				android:text="Continue With Facebook"-->
+<!--				android:background="@drawable/listlogin"-->
+<!--				/>-->
 
-			<Button
-				android:id="@+id/google"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="20dp"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/facebook"
-				android:drawableLeft="@drawable/google"
-				android:layout_gravity="center"
-				android:width="300dp"
-				android:text="Continue With Google"
-				android:background="@drawable/listlogin"
-				/>
+<!--			<Button-->
+<!--				android:id="@+id/google"-->
+<!--				android:layout_width="wrap_content"-->
+<!--				android:layout_marginTop="20dp"-->
+<!--				android:layout_height="wrap_content"-->
+<!--				android:layout_below="@id/facebook"-->
+<!--				android:drawableLeft="@drawable/google"-->
+<!--				android:layout_gravity="center"-->
+<!--				android:width="300dp"-->
+<!--				android:text="Continue With Google"-->
+<!--				android:background="@drawable/listlogin"-->
+<!--				/>-->
 
-			<Button
-				android:id="@+id/apple"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="20dp"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/google"
-				android:drawableLeft="@drawable/apple"
-				android:layout_gravity="center"
-				android:width="300dp"
-				android:text="Continue With Facebook"
-				android:background="@drawable/listlogin"
-				/>
+<!--			<Button-->
+<!--				android:id="@+id/apple"-->
+<!--				android:layout_width="wrap_content"-->
+<!--				android:layout_marginTop="20dp"-->
+<!--				android:layout_height="wrap_content"-->
+<!--				android:layout_below="@id/google"-->
+<!--				android:drawableLeft="@drawable/apple"-->
+<!--				android:layout_gravity="center"-->
+<!--				android:width="300dp"-->
+<!--				android:text="Continue With Facebook"-->
+<!--				android:background="@drawable/listlogin"-->
+<!--				/>-->
 
 			<TextView
 				android:id="@+id/or"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="30dp"
-				android:text="OR"
+				android:text="Welcome to Moda"
 				android:textAlignment="center"/>
 
 			<Button

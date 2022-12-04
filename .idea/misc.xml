@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/background_content_top.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/background_icon.xml" value="0.1925" />
+        <entry key="app/src/main/res/drawable/background_received_message.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/background_sent_message.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/button_click.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_round_logout_24.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.13196555217831812" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.26615897258847443" />
         <entry key="app/src/main/res/layout/activity_home_user.xml" value="0.290625" />
         <entry key="app/src/main/res/layout/activity_list_cart.xml" value="0.290625" />
         <entry key="app/src/main/res/layout/activity_list_produk.xml" value="0.290625" />
@@ -22,6 +26,8 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.20459599703484063" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.15374873353596757" />
+        <entry key="app/src/main/res/layout/item_container_received_message.xml" value="0.2510131712259372" />
+        <entry key="app/src/main/res/layout/item_container_sent_message.xml" value="0.2510131712259372" />
         <entry key="app/src/main/res/layout/product_card.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/produk_list_item.xml" value="0.15374873353596757" />
         <entry key="app/src/main/res/layout/store_item_list.xml" value="0.15374873353596757" />

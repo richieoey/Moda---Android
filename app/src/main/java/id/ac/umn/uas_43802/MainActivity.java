@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
 		tvSignUp = findViewById(R.id.signup);
 		SignInBtn = findViewById(R.id.signin);
-		fbBtn = findViewById(R.id.facebook);
-		googleBtn = findViewById(R.id.google);
-		appleBtn = findViewById(R.id.apple);
+//		fbBtn = findViewById(R.id.facebook);
+//		googleBtn = findViewById(R.id.google);
+//		appleBtn = findViewById(R.id.apple);
 
 
 		tvSignUp.setOnClickListener(new View.OnClickListener() {
