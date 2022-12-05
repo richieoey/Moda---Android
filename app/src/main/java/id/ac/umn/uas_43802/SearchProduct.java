@@ -20,11 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,7 +39,6 @@ public class SearchProduct extends AppCompatActivity {
     ActivitySearchProductBinding binding;
     ProdukAdapter produkAdapter;
     ArrayList<ProductModel> data = new ArrayList<ProductModel>();
-    DatabaseReference mref;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
@@ -82,7 +76,7 @@ public class SearchProduct extends AppCompatActivity {
                                             Map<String, Object> hasil = (Map<String, Object>) document.getData();
                                             Log.d("data", hasil.get("category").toString());
                                             HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-                                            data.add(new ProductModel(hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() ,  toko,  hasil.get("image").toString()) );
+                                            data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString() ,toko  ) );
                                         }
                                         produkAdapter = new ProdukAdapter(data);
                                         rvProduk.setAdapter(produkAdapter);
