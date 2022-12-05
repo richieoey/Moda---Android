@@ -35,6 +35,10 @@ public class Login extends AppCompatActivity {
 		// Initialize Firebase Auth
 		mAuth = FirebaseAuth.getInstance();
 
+		if(mAuth.getCurrentUser() != null){
+			startActivity(new Intent(getApplicationContext(), HomeUser.class));
+		}
+
 		binding.backLogin.setOnClickListener(view -> Login.super.onBackPressed());
 
 		binding.loginBtn.setOnClickListener(view -> {

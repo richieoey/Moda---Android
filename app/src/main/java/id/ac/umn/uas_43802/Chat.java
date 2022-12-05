@@ -1,25 +1,43 @@
 package id.ac.umn.uas_43802;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import id.ac.umn.uas_43802.adapter.ChatAdapter;
 import id.ac.umn.uas_43802.model.ChatModel;
+import id.ac.umn.uas_43802.model.ProductModel;
 
 public class Chat extends Fragment {
 
     RecyclerView rV;
     ChatAdapter chatAdapter;
-    ArrayList<ChatModel> data;
+    ArrayList<ChatModel> person = new ArrayList<ChatModel>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,18 +86,68 @@ public class Chat extends Fragment {
         rV = view.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         rV.setLayoutManager(layoutManager);
+        chatAdapter = new ChatAdapter(person, getContext());
+        rV.setAdapter(chatAdapter);
 
-        data = new ArrayList<>();
-        for (int i = 0; i <  ChatData.nama_toko.length; i++){
-            data.add(new ChatModel(
-                    ChatData.gambar_toko[i],
-                    ChatData.nama_toko[i],
-                    ChatData.latest_chat[i]
-            ));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Create a reference to the cities collection
+        CollectionReference chatRef = db.collection("userChats");
 
-            chatAdapter = new ChatAdapter(data, getContext());
-            rV.setAdapter(chatAdapter);
-        }
+//        Task<DocumentSnapshot> query = chatRef.document(user.getUid())
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        DocumentSnapshot data = task.getResult();
+//
+//                        Log.d("chat", result.toString());
+//                    }
+//                });
+
+        DocumentReference docRef = chatRef.document(user.getUid());
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("test", "Listen failed.", e);
+                    return;
+                }
+
+                String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
+
+                if (snapshot != null && snapshot.exists()) {
+                    Map<String, Object> result =  snapshot.getData();
+                    person.clear();
+                    for (Map.Entry<String, Object> entry : result.entrySet()) {
+                        Map<String, Object> hasil = (Map<String, Object>) entry.getValue();
+                        HashMap<String, Object> user = (HashMap<String, Object>) hasil.get("userInfo");
+                        HashMap<String, Object> last = (HashMap<String, Object>) hasil.get("lastMessage");
+                        person.add(new ChatModel(user.get("uid").toString(),user.get("photoURL").toString(), user.get("displayName").toString(), last.get("text").toString()));
+                        Log.d("userInfo", user.toString());
+                    }
+                    Log.d("test", source + " data: " + snapshot.getData());
+                    chatAdapter = new ChatAdapter(person, getContext());
+                    rV.setAdapter(chatAdapter);
+                } else {
+                    Log.d("test", source + " data: null");
+                }
+            }
+        });
+
+
+
+//        data = new ArrayList<>();
+//        for (int i = 0; i <  ChatData.nama_toko.length; i++){
+//            data.add(new ChatModel(
+//                    ChatData.gambar_toko[i],
+//                    ChatData.nama_toko[i],
+//                    ChatData.latest_chat[i]
+//            ));
+//
+//        }
         // Inflate the layout for this fragment
         return view;
     }

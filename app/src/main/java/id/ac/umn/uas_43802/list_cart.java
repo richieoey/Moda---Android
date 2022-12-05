@@ -56,7 +56,7 @@ public class list_cart extends AppCompatActivity {
 						Map<String, Object> hasil = (Map<String, Object>) entry.getValue();
 						HashMap<String, Object> produk = (HashMap<String, Object>) hasil.get("product");
 						HashMap<String, Object> toko = (HashMap<String, Object>) produk.get("toko");
-						cart.add(new ProductModel(produk.get("name").toString(), produk.get("description").toString(), produk.get("price").toString(),produk.get("category").toString() ,  toko,  produk.get("image").toString() ));
+						cart.add(new ProductModel(produk.get("uid").toString(),produk.get("name").toString(), produk.get("description").toString(), produk.get("price").toString(),produk.get("category").toString() , produk.get("image").toString()  ,toko   ));
 						Log.d("cart", toko.toString());
 					}
 

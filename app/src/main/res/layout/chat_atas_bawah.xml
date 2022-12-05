@@ -2,70 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/receiver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="@dimen/_4sdp">
+        android:padding="@dimen/_4sdp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textMessageReceiver"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
             android:background="@drawable/background_received_message"
             android:padding="@dimen/_12sdp"
+            android:text="shajsahjsaj"
             android:textColor="@color/white"
-            android:textSize="@dimen/_13ssp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.75"
-            tools:ignore="MissingConstraints" />
+            android:textSize="@dimen/_13ssp" />
 
         <TextView
             android:id="@+id/textDateTimeReceiver"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintStart_toStartOf="@id/textMessageReceiver"
-            app:layout_constraintTop_toBottomOf="@id/textMessageReceiver" />
+            android:text="12.50" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/sender"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="@dimen/_4sdp">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_4sdp"
+        android:gravity="end"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textMessage"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_sent_message"
             android:padding="@dimen/_12sdp"
+            android:text="hai"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8"
             />
 
         <TextView
             android:id="@+id/textDateTime"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
             android:textColor="@color/black"
-            android:textSize="@dimen/_10ssp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textMessage" />
+            android:text="12.50"
+            android:textSize="@dimen/_10ssp" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>

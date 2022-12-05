@@ -88,7 +88,7 @@ public class Home extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> hasil = (Map<String, Object>) document.getData();
                             HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-                            product.add(new ProductModel(hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() ,  toko,  hasil.get("image").toString() ));
+                            product.add(new ProductModel(hasil.get("uid").toString(), hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString() ,toko   ));
                         }
                         productAdapter = new ProductAdapter(product, getActivity());
                         rv.setAdapter(productAdapter);

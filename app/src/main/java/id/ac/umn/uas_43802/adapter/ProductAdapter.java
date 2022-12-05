@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -48,10 +53,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         RequestOptions options = new RequestOptions();
         options.fitCenter();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         Glide.with(context).load(data.get(position).getPhotoUrl()).apply(options).into(holder.hero);
         holder.name.setText(data.get(position).getName());
         holder.store.setText(data.get(position).getToko().get("name").toString());
         holder.price.setText(data.get(position).getPrice());
+
+        holder.cart.setOnClickListener(view -> {
+            db.collection("chats").document(user.getUid()).update(user.getUid() + data.get(position).getUid(), 1);
+        });
+
         holder.itemView.setOnClickListener(view -> {
             ProductModel product = data.get(position);
             Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
@@ -68,6 +81,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
     class MyHolder extends  RecyclerView.ViewHolder{
         ImageView hero;
         TextView name, store, price;
+        ImageButton cart;
         Context context;
         public MyHolder(@NonNull View itemView, Context context) {
             super(itemView);
@@ -76,6 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             name = itemView.findViewById(R.id.nameProduct);
             store = itemView.findViewById(R.id.name_store);
             price = itemView.findViewById(R.id.price);
+            cart = itemView.findViewById(R.id.cart_product);
         }
     }
 }
