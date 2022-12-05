@@ -11,11 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
+
+import id.ac.umn.uas_43802.model.ProductModel;
 
 public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder> {
 
-	ArrayList<ProdukModel> dataStore;
+	ArrayList<ProductModel> dataStore;
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		TextView tvNama;
@@ -31,7 +36,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 		}
 	}
 
-	ProdukAdapter(ArrayList<ProdukModel> data){
+	ProdukAdapter(ArrayList<ProductModel> data){
 		this.dataStore = data;
 	}
 
@@ -48,12 +53,16 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 		TextView txtToko = holder.tvToko;
 		TextView txtHarga = holder.tvHarga;
 		ImageView ivProduk = holder.imgStore;
-		ProdukModel produk = dataStore.get(position);
+		ProductModel produk = dataStore.get(position);
 
 		txtNama.setText(dataStore.get(position).getName());
-		txtHarga.setText(dataStore.get(position).getHarga());
-		txtToko.setText(dataStore.get(position).getNamaToko());
-		ivProduk.setImageResource(dataStore.get(position).getImage());
+		txtHarga.setText(dataStore.get(position).getPrice());
+		txtToko.setText(dataStore.get(position).getToko().get("name").toString());
+
+		RequestOptions options = new RequestOptions();
+		options.circleCrop();
+
+		Glide.with(holder.itemView.getContext()).load(dataStore.get(position).getPhotoUrl()).apply(options).into(ivProduk);
 
 		holder.itemView.setOnClickListener(view -> {
 			Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);

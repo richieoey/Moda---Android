@@ -93,13 +93,12 @@ public class Store extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()){
                             StoreModel store = new StoreModel(document.getData().get("name").toString(), document.getData().get("image").toString());
                             data.add(store);
-
                         }
+                        storeAdapter = new StoreAdapter(data, getContext());
+                        rV.setAdapter(storeAdapter);
                     }else {
                         Log.d("error", "Error getting documents: ", task.getException());
-                    }
-                    storeAdapter = new StoreAdapter(data, getContext());
-                    rV.setAdapter(storeAdapter);
+                    };
                 });
     }
 
@@ -110,6 +109,8 @@ public class Store extends Fragment {
 		rV = view.findViewById(R.id.recycler_view1);
 		RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
 		rV.setLayoutManager(layoutManager);
+        storeAdapter = new StoreAdapter(data, getContext());
+        rV.setAdapter(storeAdapter);
 
 //		data = new ArrayList<>();
 //		for (int i = 0; i < StoreData.nameStore.length; i++){

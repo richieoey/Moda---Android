@@ -69,6 +69,9 @@ public class Home extends Fragment {
         tabLayout = view.findViewById(R.id.my_tablayout);
         rv = view.findViewById(R.id.slider_product);
 		btnBaju = view.findViewById(R.id.btn_baju);
+        btnCelana = view.findViewById(R.id.btn_celana);
+        btnSepatu = view.findViewById(R.id.btn_sepatu);
+        btnTas = view.findViewById(R.id.btn_tas);
 		btnSee = view.findViewById(R.id.seeAll);
 		btnCart = view.findViewById(R.id.cart);
 
@@ -86,29 +89,54 @@ public class Home extends Fragment {
                             Map<String, Object> hasil = (Map<String, Object>) document.getData();
                             HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
                             product.add(new ProductModel(hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() ,  toko,  hasil.get("image").toString() ));
-                            Log.d("cart", hasil.get("description").toString());
-
                         }
-
-                        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                         productAdapter = new ProductAdapter(product, getActivity());
-                        rv.setLayoutManager(linearLayoutManager);
                         rv.setAdapter(productAdapter);
                     } else {
                         Log.d("error", "Error getting documents: ", task.getException());
                     }
-//                    Log.d("cart", result.toString());
-//                    cartAdapter = new CartAdapter(cart, getApplicationContext());
-//                    rV.setAdapter(cartAdapter);
                 });
 
 		btnBaju.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+
 				Intent katBaju = new Intent(getActivity(), listProduk.class);
+                katBaju.putExtra("type", "top");
 				startActivity(katBaju);
 			}
 		});
+
+        btnCelana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent katBaju = new Intent(getActivity(), listProduk.class);
+                katBaju.putExtra("type", "pants");
+                startActivity(katBaju);
+            }
+        });
+
+        btnSepatu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent katBaju = new Intent(getActivity(), listProduk.class);
+                katBaju.putExtra("type", "shoes");
+                startActivity(katBaju);
+            }
+        });
+
+        btnTas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent katBaju = new Intent(getActivity(), listProduk.class);
+                katBaju.putExtra("type", "bag");
+                startActivity(katBaju);
+            }
+        });
+
 
 		btnCart.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -133,7 +161,10 @@ public class Home extends Fragment {
         PageAdapter itemsPager_adapter = new PageAdapter(getActivity(), listItems);
         page.setAdapter(itemsPager_adapter);
 
-
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        rv.setLayoutManager(linearLayoutManager);
+        productAdapter = new ProductAdapter(product, getActivity());
+        rv.setAdapter(productAdapter);
 
         //auto-slide
         java.util.Timer timer = new java.util.Timer();
