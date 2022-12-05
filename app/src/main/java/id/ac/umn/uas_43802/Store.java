@@ -33,8 +33,8 @@ import id.ac.umn.uas_43802.adapter.CartAdapter;
  * create an instance of this fragment.
  */
 public class Store extends Fragment {
-	RecyclerView rV;
-	StoreAdapter storeAdapter;
+    RecyclerView rV;
+    StoreAdapter storeAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ArrayList<StoreModel> data = new ArrayList<>();
 
@@ -105,10 +105,10 @@ public class Store extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_store, container, false);
-		rV = view.findViewById(R.id.recycler_view1);
-		RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-		rV.setLayoutManager(layoutManager);
+        View view = inflater.inflate(R.layout.fragment_store, container, false);
+        rV = view.findViewById(R.id.recycler_view1);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        rV.setLayoutManager(layoutManager);
         storeAdapter = new StoreAdapter(data, getContext());
         rV.setAdapter(storeAdapter);
 
