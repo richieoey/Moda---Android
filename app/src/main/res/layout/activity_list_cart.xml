@@ -51,11 +51,12 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_marginTop="@dimen/_40sdp">
+
 			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/cart_recycler_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:id="@+id/cart_recycler_view"
-				tools:listitem="@layout/cart_item_list"/>
+				tools:listitem="@layout/cart_item_list" />
 		</RelativeLayout>
 	</RelativeLayout>
 
