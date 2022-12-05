@@ -51,6 +51,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
             <ImageButton
+                android:id="@+id/cart_product"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:padding="5dp"

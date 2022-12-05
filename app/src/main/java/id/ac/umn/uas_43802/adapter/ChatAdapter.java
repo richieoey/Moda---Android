@@ -2,6 +2,7 @@ package id.ac.umn.uas_43802.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
+import id.ac.umn.uas_43802.ChatActivity;
+import id.ac.umn.uas_43802.ProdukDetail;
 import id.ac.umn.uas_43802.R;
 import id.ac.umn.uas_43802.model.ChatModel;
+import id.ac.umn.uas_43802.model.ProductModel;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyHolder> {
     ArrayList<ChatModel> data = new ArrayList<>();
@@ -35,9 +42,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.hero.setImageResource(data.get(position).getFeatured_image());
-        holder.name.setText(data.get(position).getName_store());
-        holder.latest_chat.setText(data.get(position).getName_latest_chat());
+        RequestOptions options = new RequestOptions();
+        options.circleCrop();
+
+        Glide.with(holder.context).load(data.get(position).getPhotoUrl()).apply(options).into(holder.hero);
+        holder.name.setText(data.get(position).getName());
+        holder.latest_chat.setText(data.get(position).getLastMessage());
+
+        holder.itemView.setOnClickListener(view -> {
+            ChatModel person = data.get(position);
+            Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
+            intent.putExtra("person", person);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override

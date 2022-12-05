@@ -58,7 +58,7 @@ public class listProduk extends AppCompatActivity {
 								Map<String, Object> hasil = (Map<String, Object>) document.getData();
 								Log.d("data", hasil.get("category").toString());
 								HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-								data.add(new ProductModel(hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() ,  toko,  hasil.get("image").toString()) );
+								data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko   ) );
 							}
 							produkAdapter = new ProdukAdapter(data);
 							rV1.setAdapter(produkAdapter);

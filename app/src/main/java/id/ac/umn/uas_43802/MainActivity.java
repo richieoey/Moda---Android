@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import id.ac.umn.uas_43802.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
 	TextView tvSignUp;
 	Button SignInBtn, fbBtn, googleBtn, appleBtn;
+	private FirebaseAuth mAuth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
 //		fbBtn = findViewById(R.id.facebook);
 //		googleBtn = findViewById(R.id.google);
 //		appleBtn = findViewById(R.id.apple);
+
+		mAuth = FirebaseAuth.getInstance();
+
+		if(mAuth.getCurrentUser() != null){
+			startActivity(new Intent(getApplicationContext(), HomeUser.class));
+		}
 
 
 		tvSignUp.setOnClickListener(new View.OnClickListener() {
