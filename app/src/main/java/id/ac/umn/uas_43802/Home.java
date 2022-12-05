@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -153,6 +154,17 @@ public class Home extends Fragment {
 				startActivity(seeAll);
 			}
 		});
+
+        SearchView svProduct = view.findViewById(R.id.searchView);
+
+        svProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                svProduct.setIconified(false);
+                Intent search = new Intent(getActivity(), SearchProduct.class);
+                startActivity(search);
+            }
+        });
 
         listItems = new ArrayList<>() ;
         listItems.add(new Carousel_Page_Model(R.drawable.image_1,"H&M Shirt"));

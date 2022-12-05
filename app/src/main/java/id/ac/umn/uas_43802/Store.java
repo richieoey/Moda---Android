@@ -1,6 +1,7 @@
 package id.ac.umn.uas_43802;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -112,16 +114,15 @@ public class Store extends Fragment {
         storeAdapter = new StoreAdapter(data, getContext());
         rV.setAdapter(storeAdapter);
 
-//		data = new ArrayList<>();
-//		for (int i = 0; i < StoreData.nameStore.length; i++){
-//			data.add(new StoreModel(
-//					StoreData.nameStore[i],
-//					StoreData.store[i]
-//			));
-//
-//			storeAdapter = new StoreAdapter(data);
-//			rV.setAdapter(storeAdapter);
-//		}
+        SearchView svStore = view.findViewById(R.id.search_store);
+
+//        svStore.setOnClickListener(view1 -> {
+//            svStore.setIconified(false);
+//            Intent search = new Intent(getActivity(), SearchStore.class);
+//            startActivity(search);
+//        });
+
+
         getData();
         // Inflate the layout for this fragment
         return view;

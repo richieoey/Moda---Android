@@ -36,7 +36,12 @@
                     android:queryHint="Search"
                     android:background="@drawable/style_search"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </EditText>
+                </SearchView>
 
                 <ImageButton
                     android:id="@+id/cart"
