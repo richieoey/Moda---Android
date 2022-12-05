@@ -6,6 +6,9 @@
         <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_home_user.xml" value="0.16041666666666668" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_list_produk.xml" value="0.16041666666666668" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_login.xml" value="0.16041666666666668" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_register_seller.xml" value="0.18385416666666668" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_search_product.xml" value="0.16" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_search_store.xml" value="0.176" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_sign_up_pin.xml" value="0.16041666666666668" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/activity_store_detail.xml" value="0.264" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/fragment_chat.xml" value="0.1046875" />
@@ -13,8 +16,11 @@
         <entry key="..\:/Moda---Android/app/src/main/res/layout/fragment_store.xml" value="0.1046875" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/item_container_received_message.xml" value="0.1046875" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/item_container_sent_message.xml" value="0.1046875" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/list_search_product.xml" value="0.1" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/list_search_store.xml" value="0.1828125" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/product_card.xml" value="0.16041666666666668" />
         <entry key="..\:/Moda---Android/app/src/main/res/layout/produk_list_item.xml" value="0.16041666666666668" />
+        <entry key="..\:/Moda---Android/app/src/main/res/layout/store_item_list.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/background_content_top.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/background_icon.xml" value="0.1925" />
