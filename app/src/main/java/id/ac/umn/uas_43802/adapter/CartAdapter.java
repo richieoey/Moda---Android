@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,9 +26,9 @@ import id.ac.umn.uas_43802.model.CartModel;
 import id.ac.umn.uas_43802.model.ProductModel;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
-    ArrayList<CartModel> data = new ArrayList<>();
+    ArrayList<ProductModel> data = new ArrayList<>();
     Context context;
-    public CartAdapter (ArrayList<CartModel> data, Context context) {
+    public CartAdapter (ArrayList<ProductModel> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -40,11 +43,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.MyHolder holder, int position) {
-
-            holder.hero.setImageResource(data.get(position).getFeatured_image());
-            holder.name.setText(data.get(position).getNama_produk());
-            holder.store.setText(data.get(position).getName_store());
-            holder.price.setText(data.get(position).getHarga());
+        RequestOptions options = new RequestOptions();
+        options.circleCrop();
+            Glide.with(context).load(data.get(position).getPhotoUrl()).apply(options).into(holder.hero);
+            holder.name.setText(data.get(position).getName());
+            holder.store.setText(data.get(position).getToko().get("name").toString());
+            holder.price.setText(data.get(position).getPrice());
     }
 
     @Override

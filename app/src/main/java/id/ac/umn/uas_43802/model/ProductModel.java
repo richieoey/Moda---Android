@@ -1,15 +1,16 @@
 package id.ac.umn.uas_43802.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ProductModel {
     private String name, description, price, category, photoUrl;
-    private Map<String, String> toko;
+    private HashMap<String, Object> toko;
 
-    public ProductModel(String name, String description, String price, String category, Map<String, String> toko, String photoUrl) {
+    public ProductModel(String name, String description, String price, String category, HashMap<String, Object> toko, String photoUrl) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.price = "Rp. " + price;
         this.category = category;
         this.toko = toko;
         this.photoUrl = photoUrl;
@@ -17,15 +18,6 @@ public class ProductModel {
 
     public String getPhotoUrl() {
         return photoUrl;
-    }
-
-    public ProductModel(String name, String description, String price, String category, String photoUrl, Map<String,String> toko) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.photoUrl = photoUrl;
-        this.toko = toko;
     }
 
     public String getName() {
@@ -44,7 +36,7 @@ public class ProductModel {
         return category;
     }
 
-    public Map<String,String> getToko() {
+    public HashMap<String, Object> getToko() {
         return toko;
     }
 }
