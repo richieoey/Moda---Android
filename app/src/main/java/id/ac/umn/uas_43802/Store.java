@@ -25,6 +25,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.ac.umn.uas_43802.adapter.CartAdapter;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Store#newInstance} factory method to
@@ -34,7 +36,7 @@ public class Store extends Fragment {
 	RecyclerView rV;
 	StoreAdapter storeAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private List<StoreModel> list = new ArrayList<>();
+    private ArrayList<StoreModel> data = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,22 +88,18 @@ public class Store extends Fragment {
     private void getData(){
         db.collection("toko")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        list.clear();
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                StoreModel store = new StoreModel(document.getString("name"), document.getData().get("image").toString(), document.getString("id"));
-                                store.setId(document.getId());
-                                list.add(store);
-                            }
-                        }else {
-                            Log.d("error", "Error getting documents: ", task.getException());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot document : task.getResult()){
+                            StoreModel store = new StoreModel(document.getData().get("name").toString(), document.getData().get("image").toString());
+                            data.add(store);
 
+                        }
+                    }else {
+                        Log.d("error", "Error getting documents: ", task.getException());
                     }
+                    storeAdapter = new StoreAdapter(data, getContext());
+                    rV.setAdapter(storeAdapter);
                 });
     }
 

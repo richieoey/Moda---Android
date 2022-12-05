@@ -3,13 +3,13 @@ package id.ac.umn.uas_43802;
 public class StoreModel {
 
 	String name;
-	String id;
+
 	String image;
 
-	public StoreModel(String name, String image, String id) {
+	public StoreModel(String name, String image) {
 		this.name = name;
 		this.image = image;
-		this.id = id;
+
 	}
 
 
@@ -29,7 +29,4 @@ public class StoreModel {
 		this.image = image;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
 }

@@ -72,11 +72,17 @@ package id.ac.umn.uas_43802;
 		import androidx.recyclerview.widget.RecyclerView;
 
 
+		import com.bumptech.glide.Glide;
+		import com.bumptech.glide.request.RequestOptions;
+
+		import java.util.ArrayList;
 		import java.util.List;
+
+		import id.ac.umn.uas_43802.model.ProductModel;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder> {
 	private Context context;
-	private List<StoreModel> list;
+	private ArrayList<StoreModel> data = new ArrayList<>();;
 	private Dialog dialog;
 
 	public interface Dialog{
@@ -87,9 +93,9 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
 		this.dialog = dialog;
 	}
 
-	public StoreAdapter(Context context, List<StoreModel> list){
+	public StoreAdapter (ArrayList<StoreModel> data, Context context) {
+		this.data = data;
 		this.context = context;
-		this.list = list;
 	}
 
 	@NonNull
@@ -101,13 +107,16 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
 
 	@Override
 	public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-		holder.name.setText(list.get(position).getName());
-		holder.image.setImageResource(R.drawable.anjay_store);
+
+		RequestOptions options = new RequestOptions();
+		options.circleCrop();
+		Glide.with(context).load(data.get(position).getImage()).apply(options).into(holder.image);
+		holder.name.setText(data.get(position).getName());
 	}
 
 	@Override
 	public int getItemCount() {
-		return list.size();
+		return data.size();
 	}
 
 	class MyViewHolder extends RecyclerView.ViewHolder{
@@ -118,12 +127,9 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
 			super(itemView);
 			name = itemView.findViewById(R.id.store_name);
 			image = itemView.findViewById(R.id.image_store);
-			itemView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (dialog!=null){
-						dialog.onClick(getLayoutPosition());
-					}
+			itemView.setOnClickListener(view -> {
+				if (dialog!=null){
+					dialog.onClick(getLayoutPosition());
 				}
 			});
 		}

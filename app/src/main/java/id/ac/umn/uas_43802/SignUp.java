@@ -174,7 +174,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 				Toast.makeText(SignUp.this, "Empty field not allowed!", Toast.LENGTH_SHORT).show();
 			} else {
 				FirebaseFirestore database = FirebaseFirestore.getInstance();
-				HashMap<String, String> user = new HashMap<>();
+				HashMap<String, Object> user = new HashMap<>();
 
 				// Authentication Firebase
 				mAuth.createUserWithEmailAndPassword(binding.email.getText().toString(),binding.password.getText().toString())
@@ -198,6 +198,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 										user.put(Constants.KEY_PASSWORD, binding.password.getText().toString());
 										user.put(Constants.KEY_PIN, "");
 										user.put(Constants.KEY_IMAGE, "");
+										user.put("regSeller", false);
 
 										//Upload Image
 										StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
@@ -212,7 +213,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 																	.addOnSuccessListener(documentReference -> {
 																		docID = documentReference.getId();
 																		Intent pin = new Intent(SignUp.this, SignUpPin.class);
-																		pin.putExtra("key", docID);
+									  									pin.putExtra("key", docID);
 																		pin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 																		startActivity(pin);
 																	})
