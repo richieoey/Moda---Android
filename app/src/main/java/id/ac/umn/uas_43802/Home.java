@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,30 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
+import id.ac.umn.uas_43802.adapter.CartAdapter;
 import id.ac.umn.uas_43802.adapter.PageAdapter;
 import id.ac.umn.uas_43802.adapter.ProductAdapter;
 import id.ac.umn.uas_43802.model.Carousel_Page_Model;
 import id.ac.umn.uas_43802.model.Carousel_Page_Product;
+import id.ac.umn.uas_43802.model.ProductModel;
 
 public class Home extends Fragment {
     private List<Carousel_Page_Model> listItems;
@@ -34,7 +49,7 @@ public class Home extends Fragment {
     private TabLayout tabLayout;
     private RecyclerView rv;
 	private ImageButton btnCart;
-    private ArrayList<Carousel_Page_Product> data;
+    private ArrayList<ProductModel> product = new ArrayList<ProductModel>();
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
 	Button btnSee;
@@ -56,6 +71,36 @@ public class Home extends Fragment {
 		btnBaju = view.findViewById(R.id.btn_baju);
 		btnSee = view.findViewById(R.id.seeAll);
 		btnCart = view.findViewById(R.id.cart);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Create a reference to the cities collection
+        CollectionReference productRef =  db.collection("product");
+
+        Task<QuerySnapshot> query = productRef.limit(5)
+                .get()
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> hasil = (Map<String, Object>) document.getData();
+                            HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
+                            product.add(new ProductModel(hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() ,  toko,  hasil.get("image").toString() ));
+                            Log.d("cart", hasil.get("description").toString());
+
+                        }
+
+                        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        productAdapter = new ProductAdapter(product, getActivity());
+                        rv.setLayoutManager(linearLayoutManager);
+                        rv.setAdapter(productAdapter);
+                    } else {
+                        Log.d("error", "Error getting documents: ", task.getException());
+                    }
+//                    Log.d("cart", result.toString());
+//                    cartAdapter = new CartAdapter(cart, getApplicationContext());
+//                    rV.setAdapter(cartAdapter);
+                });
 
 		btnBaju.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -81,24 +126,12 @@ public class Home extends Fragment {
 			}
 		});
 
-
-        data = new ArrayList<>();
-        data.add(new Carousel_Page_Product(R.drawable.image_1, "H&M Shirt", "Rina Store", "Rp. 100.000"));
-        data.add(new Carousel_Page_Product(R.drawable.image_2, "Pull&Bear Shirt", "Bunda Store", "Rp. 150.000"));
-        data.add(new Carousel_Page_Product(R.drawable.image_1, "H&M Shirt", "Rina Store", "Rp. 100.000"));
-        data.add(new Carousel_Page_Product(R.drawable.image_2, "Pull&Bear Shirt", "Bunda Store", "Rp. 150.000"));
-
         listItems = new ArrayList<>() ;
         listItems.add(new Carousel_Page_Model(R.drawable.image_1,"H&M Shirt"));
         listItems.add(new Carousel_Page_Model(R.drawable.image_2,"Pull & Bear"));
 
         PageAdapter itemsPager_adapter = new PageAdapter(getActivity(), listItems);
         page.setAdapter(itemsPager_adapter);
-
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        productAdapter = new ProductAdapter(data, getActivity());
-        rv.setLayoutManager(linearLayoutManager);
-        rv.setAdapter(productAdapter);
 
 
 

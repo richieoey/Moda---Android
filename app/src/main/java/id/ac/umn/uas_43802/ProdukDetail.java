@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import id.ac.umn.uas_43802.model.ProductModel;
+
 public class ProdukDetail extends AppCompatActivity {
 	ImageView ivProduk;
 	TextView tvHarga;
@@ -21,9 +26,12 @@ public class ProdukDetail extends AppCompatActivity {
 		tvHarga = findViewById(R.id.textView4);
 		tvNama = findViewById(R.id.textNama);
 
-		ProdukModel data = getIntent().getParcelableExtra("produk");
-		ivProduk.setImageResource(data.getImage());
-		tvHarga.setText(data.getHarga());
+		ProductModel data = getIntent().getParcelableExtra("produk");
+		RequestOptions options = new RequestOptions();
+		options.circleCrop();
+
+		Glide.with(getApplicationContext()).load(data.getPhotoUrl()).apply(options).into(ivProduk);
+		tvHarga.setText(data.getPrice());
 		tvNama.setText(data.getName());
 
 		ivBack = findViewById(R.id.backHome);

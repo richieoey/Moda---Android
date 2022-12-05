@@ -1,6 +1,10 @@
 package id.ac.umn.uas_43802.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Debug;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +14,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
+import id.ac.umn.uas_43802.HomeUser;
+import id.ac.umn.uas_43802.ProdukDetail;
 import id.ac.umn.uas_43802.R;
 import id.ac.umn.uas_43802.model.Carousel_Page_Product;
+import id.ac.umn.uas_43802.model.ProductModel;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder> {
-    ArrayList<Carousel_Page_Product> data = new ArrayList<>();
+    ArrayList<ProductModel> data = new ArrayList<>();
     Context context;
-    public ProductAdapter (ArrayList<Carousel_Page_Product> data, Context context) {
+    public ProductAdapter (ArrayList<ProductModel> data, Context context) {
         this.data = data;
         this.context = context;
     }
@@ -34,10 +44,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.hero.setImageResource(data.get(position).getFeatured_image());
-        holder.name.setText(data.get(position).getName_product());
-        holder.store.setText(data.get(position).getName_store());
+//        holder.hero.setImageResource(data.get(position).getFeatured_image());
+        RequestOptions options = new RequestOptions();
+        options.fitCenter();
+
+        Glide.with(context).load(data.get(position).getPhotoUrl()).apply(options).into(holder.hero);
+        holder.name.setText(data.get(position).getName());
+        holder.store.setText(data.get(position).getToko().get("name").toString());
         holder.price.setText(data.get(position).getPrice());
+        holder.itemView.setOnClickListener(view -> {
+            ProductModel product = data.get(position);
+            Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
+            intent.putExtra("produk", product);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
