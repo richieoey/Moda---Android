@@ -69,6 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             ProductModel product = data.get(position);
             Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
             intent.putExtra("produk", product);
+            intent.putExtra("detail", "homeView");
             holder.itemView.getContext().startActivity(intent);
         });
     }

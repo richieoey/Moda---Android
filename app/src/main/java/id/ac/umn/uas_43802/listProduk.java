@@ -67,16 +67,6 @@ public class listProduk extends AppCompatActivity {
 						}
 					}
 				});
-//		data = new ArrayList<>();
-//		for (int i = 0; i < ProdukData.namaProduk.length; i++){
-//			data.add(new ProdukModel(
-//					ProdukData.namaProduk[i],
-//					ProdukData.namaToko[i],
-//					ProdukData.hargaProduk[i],
-//					ProdukData.imgProduk[i]
-//			));
-//
-//		}
 
 		ivBack = findViewById(R.id.backHome);
 		ivBack.setOnClickListener(new View.OnClickListener() {
