@@ -5,9 +5,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import id.ac.umn.uas_43802.databinding.ActivityLoginBinding;
 import id.ac.umn.uas_43802.databinding.ActivityStoreDetailBinding;
@@ -24,6 +28,8 @@ public class StoreDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityStoreDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        StoreModel data = getIntent().getParcelableExtra("store");
+
         btnBack = findViewById(R.id.backbtn_store_detail);
         btnCart = findViewById(R.id.add_cart_toko);
         imGambarStore = findViewById(R.id.image_store_detail);
@@ -32,5 +38,16 @@ public class StoreDetail extends AppCompatActivity {
         tvProvince = findViewById(R.id.store_name_lokasi);
         rvProduk = findViewById(R.id.recycler_view1);
         btnChatPenjual = findViewById(R.id.btn_chat_penjual);
+
+        tvStoreName.setText(data.getName());
+        tvNameToolbar.setText(data.getName());
+
+        RequestOptions options = new RequestOptions();
+        options.circleCrop();
+        Glide.with(getApplicationContext()).load(data.getImage()).apply(options).into(imGambarStore);
+
+        btnBack.setOnClickListener(view -> {
+            StoreDetail.super.onBackPressed();
+        });
     }
 }
