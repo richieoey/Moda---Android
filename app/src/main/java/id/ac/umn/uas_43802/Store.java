@@ -92,6 +92,7 @@ public class Store extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
+                        data.clear();
                         for (QueryDocumentSnapshot document : task.getResult()){
                             StoreModel store = new StoreModel(document.getData().get("name").toString(), document.getData().get("image").toString());
                             data.add(store);
@@ -121,7 +122,6 @@ public class Store extends Fragment {
 //            Intent search = new Intent(getActivity(), SearchStore.class);
 //            startActivity(search);
 //        });
-
 
         getData();
         // Inflate the layout for this fragment

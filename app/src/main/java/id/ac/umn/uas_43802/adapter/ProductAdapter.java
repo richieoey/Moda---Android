@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import id.ac.umn.uas_43802.HomeUser;
 import id.ac.umn.uas_43802.ProdukDetail;
@@ -62,7 +64,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         holder.price.setText(data.get(position).getPrice());
 
         holder.cart.setOnClickListener(view -> {
-            db.collection("chats").document(user.getUid()).update(user.getUid() + data.get(position).getUid(), 1);
+            HashMap<String, Object> product = new HashMap<String, Object>();
+            HashMap<String, Object> sendData = new HashMap<String, Object>();
+            HashMap<String, Object> finalData = new HashMap<String, Object>();
+            product.put("uid", data.get(position).getUid());
+            product.put("name", data.get(position).getName());
+            product.put("description", data.get(position).getDescription());
+            product.put("category", data.get(position).getCategory());
+            product.put("price", data.get(position).getPrice());
+            product.put("image", data.get(position).getPhotoUrl());
+            product.put("toko", data.get(position).getToko());
+            sendData.put("product", product);
+            sendData.put("quantity", 1);
+            finalData.put(user.getUid() + data.get(position).getUid(), sendData);
+            db.collection("cart").document(user.getUid()).update(finalData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d("result", "berhasil");
+                        }
+                    });
         });
 
         holder.itemView.setOnClickListener(view -> {
