@@ -58,6 +58,7 @@
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
 							android:layout_marginRight="10dp"
+							android:id="@+id/gotocart"
 							android:background="@drawable/ic_baseline_shopping_cart_24"
 							android:scaleType="fitXY" />
 					</LinearLayout>

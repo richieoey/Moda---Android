@@ -171,6 +171,7 @@
 					android:layout_gravity="bottom">
 
 					<ImageButton
+						android:id="@+id/addChat"
 						android:layout_width="60dp"
 						android:layout_height="60dp"
 						android:layout_marginStart="10dp"
@@ -185,6 +186,7 @@
 						android:layout_marginStart="5dp"
 						android:layout_marginEnd="5dp"
 						android:backgroundTint="@color/blue"
+						android:id="@+id/addCart"
 						android:text="Add To Cart"
 						/>
 					<Button
@@ -196,7 +198,6 @@
 						android:backgroundTint="@color/blue"
 						android:text="Buy Now"
 						/>
-
 				</LinearLayout>
 
 			</LinearLayout>

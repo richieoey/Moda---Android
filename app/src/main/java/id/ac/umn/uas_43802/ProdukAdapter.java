@@ -66,8 +66,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 
 		holder.itemView.setOnClickListener(view -> {
 			Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
-			intent.putExtra("produk", produk);
-			intent.putExtra("detail", "categoryView");
+			intent.putExtra("uid", produk.getUid());
 			holder.itemView.getContext().startActivity(intent);
 		});
 	}

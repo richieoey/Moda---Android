@@ -25,7 +25,7 @@ import id.ac.umn.uas_43802.model.SearchProductModel;
 
 public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdapter.ViewHolder> {
 
-    ArrayList<SearchProductModel> dataStore;
+    ArrayList<ProductModel> dataStore;
     Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,7 +42,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         }
     }
 
-    public SearchProductAdapter (ArrayList<SearchProductModel> data, Context context) {
+    public SearchProductAdapter (ArrayList<ProductModel> data, Context context) {
         this.dataStore = data;
         this.context = context;
     }
@@ -61,7 +61,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         TextView txtToko = holder.tvToko;
         TextView txtHarga = holder.tvHarga;
         ImageView ivProduk = holder.imgStore;
-        SearchProductModel produk = dataStore.get(position);
+        ProductModel produk = dataStore.get(position);
 
         txtNama.setText(dataStore.get(position).getName());
         txtHarga.setText(dataStore.get(position).getPrice());
@@ -74,8 +74,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
-            intent.putExtra("detail", "searchView");
-            intent.putExtra("produk", produk);
+            intent.putExtra("uid", produk.getUid());
             holder.itemView.getContext().startActivity(intent);
         });
     }

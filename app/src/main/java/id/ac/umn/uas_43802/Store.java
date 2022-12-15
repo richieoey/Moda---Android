@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import id.ac.umn.uas_43802.adapter.CartAdapter;
 public class Store extends Fragment {
     RecyclerView rV;
     StoreAdapter storeAdapter;
+    ImageButton cartButton;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ArrayList<StoreModel> data = new ArrayList<>();
 
@@ -116,6 +118,12 @@ public class Store extends Fragment {
         rV.setAdapter(storeAdapter);
 
         SearchView svStore = view.findViewById(R.id.searchViewToko);
+        cartButton = view.findViewById(R.id.gotocart);
+
+        cartButton.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), list_cart.class);
+            startActivity(intent);
+        });
 
         svStore.setOnClickListener(view1 -> {
             svStore.setIconified(false);

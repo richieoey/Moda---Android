@@ -63,12 +63,12 @@ public class SearchStoreAdapter extends RecyclerView.Adapter<SearchStoreAdapter.
 
         Glide.with(holder.itemView.getContext()).load(store.getImage()).apply(options).into(ivStore);
 
-//        holder.itemView.setOnClickListener(view -> {
-//            Intent intent = new Intent(holder.itemView.getContext(), StoreDetail.class);
-//            intent.putExtra("detail", "searchViewToko");
-//            intent.putExtra("store", store);
-//            holder.itemView.getContext().startActivity(intent);
-//        });
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), StoreDetail.class);
+            intent.putExtra("detail", "searchViewToko");
+            intent.putExtra("store", store);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override

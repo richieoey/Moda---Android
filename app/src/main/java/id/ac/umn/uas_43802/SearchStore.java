@@ -47,6 +47,9 @@ public class SearchStore extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         rvStore.setLayoutManager(layoutManager);
 
+        searchStoreAdapter = new SearchStoreAdapter(data, getApplicationContext());
+        rvStore.setAdapter(searchStoreAdapter);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a reference to the cities collection

@@ -52,7 +52,7 @@ public class SearchProduct extends AppCompatActivity {
     RecyclerView rvProduk;
     ActivitySearchProductBinding binding;
     SearchProductAdapter searchProductAdapter;
-    ArrayList<SearchProductModel> data = new ArrayList<>();
+    ArrayList<ProductModel> data = new ArrayList<>();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -66,6 +66,8 @@ public class SearchProduct extends AppCompatActivity {
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         rvProduk.setLayoutManager(layoutManager);
+        searchProductAdapter = new SearchProductAdapter(data, getApplicationContext());
+        rvProduk.setAdapter(searchProductAdapter);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -82,7 +84,7 @@ public class SearchProduct extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Map<String, Object> hasil = (Map<String, Object>) document.getData();
                                     HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-                                    data.add(new SearchProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko  ));
+                                    data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko  ));
                                     Log.d("data", hasil.get("name").toString());
                                 }
                                 searchProductAdapter = new SearchProductAdapter(data, getApplicationContext());
@@ -105,7 +107,7 @@ public class SearchProduct extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Map<String, Object> hasil = (Map<String, Object>) document.getData();
                                     HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-                                    data.add(new SearchProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko  ));
+                                    data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko  ));
                                     Log.d("data", hasil.get("name").toString());
                                 }
                                 searchProductAdapter = new SearchProductAdapter(data, getApplicationContext());

@@ -30,6 +30,7 @@ import id.ac.umn.uas_43802.adapter.ProductAdapter;
 import id.ac.umn.uas_43802.databinding.ActivityLoginBinding;
 import id.ac.umn.uas_43802.databinding.ActivityStoreDetailBinding;
 import id.ac.umn.uas_43802.model.ProductModel;
+import id.ac.umn.uas_43802.model.SearchStoreModel;
 
 public class StoreDetail extends AppCompatActivity {
     ImageView btnBack, btnCart, imGambarStore;
@@ -46,7 +47,7 @@ public class StoreDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityStoreDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        StoreModel data = getIntent().getParcelableExtra("store");
+        String detail = getIntent().getStringExtra("detail");
 
         btnBack = findViewById(R.id.backbtn_store_detail);
         btnCart = findViewById(R.id.add_cart_toko);
@@ -57,33 +58,59 @@ public class StoreDetail extends AppCompatActivity {
         rv = findViewById(R.id.recycler_view1);
         btnChatPenjual = findViewById(R.id.btn_chat_penjual);
 
-        tvStoreName.setText(data.getName());
-        tvNameToolbar.setText(data.getName());
-
         RequestOptions options = new RequestOptions();
         options.circleCrop();
-        Glide.with(getApplicationContext()).load(data.getImage()).apply(options).into(imGambarStore);
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a reference to the cities collection
         CollectionReference productRef =  db.collection("product");
 
-        Task<QuerySnapshot> query = productRef.whereEqualTo("toko.name", data.getName())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Map<String, Object> hasil = (Map<String, Object>) document.getData();
-                            HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
-                            product.add(new ProductModel(hasil.get("uid").toString(), hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString() ,toko));
+        if(detail != null){
+            if(detail.compareTo("searchViewToko") == 0){
+                SearchStoreModel data = getIntent().getParcelableExtra("store");
+                tvStoreName.setText(data.getName());
+                tvNameToolbar.setText(data.getName());
+                tvProvince.setText(data.getProvince());
+                Glide.with(getApplicationContext()).load(data.getImage()).apply(options).into(imGambarStore);
+                Task<QuerySnapshot> query = productRef.whereEqualTo("toko.name", data.getName())
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Map<String, Object> hasil = (Map<String, Object>) document.getData();
+                                    HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
+                                    product.add(new ProductModel(hasil.get("uid").toString(), hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString() ,toko));
+                                }
+                                productAdapter = new ProductAdapter(product, StoreDetail.this);
+                                rv.setAdapter(productAdapter);
+                            } else {
+                                Log.d("error", "Error getting documents: ", task.getException());
+                            }
+                        });
+            }
+        }else{
+            StoreModel data = getIntent().getParcelableExtra("store");
+            tvStoreName.setText(data.getName());
+            tvNameToolbar.setText(data.getName());
+            Glide.with(getApplicationContext()).load(data.getImage()).apply(options).into(imGambarStore);
+            Task<QuerySnapshot> query = productRef.whereEqualTo("toko.name", data.getName())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> hasil = (Map<String, Object>) document.getData();
+                                HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
+                                product.add(new ProductModel(hasil.get("uid").toString(), hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString() ,toko));
+                            }
+                            productAdapter = new ProductAdapter(product, StoreDetail.this);
+                            rv.setAdapter(productAdapter);
+                        } else {
+                            Log.d("error", "Error getting documents: ", task.getException());
                         }
-                        productAdapter = new ProductAdapter(product, getApplicationContext());
-                        rv.setAdapter(productAdapter);
-                    } else {
-                        Log.d("error", "Error getting documents: ", task.getException());
-                    }
-                });
+                    });
+        }
 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         rv.setLayoutManager(linearLayoutManager);

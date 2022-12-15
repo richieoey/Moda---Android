@@ -97,6 +97,7 @@ public class ChatActivity extends AppCompatActivity {
                     detailAdapter = new ChatDetailAdapter(chats, getApplicationContext());
                     binding.chatRecyclerView.setAdapter(detailAdapter);
                 } else {
+                    binding.progressBar.setVisibility(View.GONE);
                     Log.d("test", source + " data: null");
                 }
             }

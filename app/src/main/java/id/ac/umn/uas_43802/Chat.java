@@ -125,10 +125,8 @@ public class Chat extends Fragment {
                         Map<String, Object> hasil = (Map<String, Object>) entry.getValue();
                         HashMap<String, Object> user = (HashMap<String, Object>) hasil.get("userInfo");
                         HashMap<String, Object> last = (HashMap<String, Object>) hasil.get("lastMessage");
-                        person.add(new ChatModel(user.get("uid").toString(),user.get("photoURL").toString(), user.get("displayName").toString(), last.get("text").toString()));
-                        Log.d("userInfo", user.toString());
+                        person.add(new ChatModel(user.get("uid").toString(), user.get("photoURL").toString(), user.get("displayName").toString(), last.get("text").toString()));
                     }
-                    Log.d("test", source + " data: " + snapshot.getData());
                     chatAdapter = new ChatAdapter(person, getContext());
                     rV.setAdapter(chatAdapter);
                 } else {

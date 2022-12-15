@@ -2,6 +2,7 @@ package id.ac.umn.uas_43802.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Debug;
 import android.os.Parcelable;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -88,10 +90,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
         holder.itemView.setOnClickListener(view -> {
             ProductModel product = data.get(position);
-            Intent intent = new Intent(holder.itemView.getContext(), ProdukDetail.class);
-            intent.putExtra("produk", product);
-            intent.putExtra("detail", "homeView");
-            holder.itemView.getContext().startActivity(intent);
+
+            Intent intent = new Intent(context, ProdukDetail.class);
+            intent.putExtra("uid", product.getUid());
+            context.startActivity(intent);
         });
     }
 
