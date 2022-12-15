@@ -60,7 +60,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 		txtToko.setText(dataStore.get(position).getToko().get("name").toString());
 
 		RequestOptions options = new RequestOptions();
-		options.circleCrop();
+		options.fitCenter();
 
 		Glide.with(holder.itemView.getContext()).load(dataStore.get(position).getPhotoUrl()).apply(options).into(ivProduk);
 

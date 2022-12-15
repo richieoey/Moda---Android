@@ -48,6 +48,7 @@ public class listProduk extends AppCompatActivity {
 		// Create a reference to the cities collection
 		CollectionReference usersRef = db.collection("product");
 		Log.d("data", type);
+
 		// Check category All 
 		if(type.equals("all")){
 			Task<QuerySnapshot> query = usersRef.limit(10)
