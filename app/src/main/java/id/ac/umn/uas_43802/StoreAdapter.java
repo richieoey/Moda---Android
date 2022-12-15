@@ -1,6 +1,7 @@
 package id.ac.umn.uas_43802;
 import android.content.Context;
-		import android.view.LayoutInflater;
+import android.content.Intent;
+import android.view.LayoutInflater;
 		import android.view.View;
 		import android.view.ViewGroup;
 		import android.widget.ImageView;
@@ -50,6 +51,11 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.MyViewHolder
 		options.fitCenter();
 		Glide.with(context).load(data.get(position).getImage()).apply(options).into(holder.image);
 		holder.name.setText(data.get(position).getName());
+		holder.itemView.setOnClickListener(view -> {
+			Intent intent = new Intent(holder.itemView.getContext(), StoreDetail.class);
+			intent.putExtra("store", data.get(position));
+			holder.itemView.getContext().startActivity(intent);
+		});
 	}
 
 	@Override

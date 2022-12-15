@@ -1,6 +1,9 @@
 package id.ac.umn.uas_43802;
 
-public class StoreModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class StoreModel implements Parcelable {
 
 	String name;
 
@@ -9,9 +12,25 @@ public class StoreModel {
 	public StoreModel(String name, String image) {
 		this.name = name;
 		this.image = image;
-
 	}
 
+
+	protected StoreModel(Parcel in) {
+		name = in.readString();
+		image = in.readString();
+	}
+
+	public static final Creator<StoreModel> CREATOR = new Creator<StoreModel>() {
+		@Override
+		public StoreModel createFromParcel(Parcel in) {
+			return new StoreModel(in);
+		}
+
+		@Override
+		public StoreModel[] newArray(int size) {
+			return new StoreModel[size];
+		}
+	};
 
 	public String getName() {
 		return name;
@@ -29,4 +48,14 @@ public class StoreModel {
 		this.image = image;
 	}
 
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+		parcel.writeString(name);
+		parcel.writeString(image);
+	}
 }
