@@ -37,7 +37,7 @@ public class ProdukDetail extends AppCompatActivity {
 		if(name.contains("searchView")){
 			SearchProductModel data = getIntent().getParcelableExtra("produk");
 			RequestOptions options = new RequestOptions();
-			options.circleCrop();
+			options.fitCenter();
 
 			Glide.with(getApplicationContext()).load(data.getPhotoUrl()).apply(options).into(ivProduk);
 			tvHarga.setText(data.getPrice());
@@ -45,7 +45,7 @@ public class ProdukDetail extends AppCompatActivity {
 		} else {
 			ProductModel data = getIntent().getParcelableExtra("produk");
 			RequestOptions options = new RequestOptions();
-			options.circleCrop();
+			options.fitCenter();
 
 			Glide.with(getApplicationContext()).load(data.getPhotoUrl()).apply(options).into(ivProduk);
 			tvHarga.setText(data.getPrice());

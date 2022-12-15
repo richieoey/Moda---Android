@@ -48,14 +48,14 @@ public class listProduk extends AppCompatActivity {
 		// Create a reference to the cities collection
 		CollectionReference usersRef = db.collection("product");
 		Log.d("data", type);
-		Task<QuerySnapshot> query = usersRef.whereEqualTo("category", type).limit(10)
-				.get()
-				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-					@Override
-					public void onComplete(@NonNull Task<QuerySnapshot> task) {
+		// Check category All 
+		if(type.equals("all")){
+			Task<QuerySnapshot> query = usersRef.limit(10)
+					.get()
+					.addOnCompleteListener(task -> {
 						if (task.isSuccessful()) {
 							for (QueryDocumentSnapshot document : task.getResult()) {
-								Map<String, Object> hasil = (Map<String, Object>) document.getData();
+								Map<String, Object> hasil = document.getData();
 								Log.d("data", hasil.get("category").toString());
 								HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
 								data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko   ) );
@@ -65,16 +65,31 @@ public class listProduk extends AppCompatActivity {
 						} else {
 							Log.d("error", "Error getting documents: ", task.getException());
 						}
-					}
-				});
+					});
+		} else { // Jika tidak tunjuk data per kategori yang dipilih
+			Task<QuerySnapshot> query = usersRef.whereEqualTo("category", type).limit(10)
+					.get()
+					.addOnCompleteListener(task -> {
+						if (task.isSuccessful()) {
+							for (QueryDocumentSnapshot document : task.getResult()) {
+								Map<String, Object> hasil = document.getData();
+								Log.d("data", hasil.get("category").toString());
+								HashMap<String, Object> toko = (HashMap<String, Object>) hasil.get("toko");
+								data.add(new ProductModel(hasil.get("uid").toString(),hasil.get("name").toString(), hasil.get("description").toString(), hasil.get("price").toString(),hasil.get("category").toString() , hasil.get("image").toString()  ,toko   ) );
+							}
+							produkAdapter = new ProdukAdapter(data);
+							rV1.setAdapter(produkAdapter);
+						} else {
+							Log.d("error", "Error getting documents: ", task.getException());
+						}
+					});
+		}
+
+
 
 		ivBack = findViewById(R.id.backHome);
-		ivBack.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				listProduk.super.onBackPressed();
-			}
-		});
+
+		ivBack.setOnClickListener(view -> listProduk.super.onBackPressed());
 
 	}
 

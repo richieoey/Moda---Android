@@ -23,7 +23,7 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/image_produk"
+                android:id="@+id/image_toko"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_110sdp"
                 android:adjustViewBounds="true"

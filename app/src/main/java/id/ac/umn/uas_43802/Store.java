@@ -115,13 +115,13 @@ public class Store extends Fragment {
         storeAdapter = new StoreAdapter(data, getContext());
         rV.setAdapter(storeAdapter);
 
-        SearchView svStore = view.findViewById(R.id.search_store);
+        SearchView svStore = view.findViewById(R.id.searchViewToko);
 
-//        svStore.setOnClickListener(view1 -> {
-//            svStore.setIconified(false);
-//            Intent search = new Intent(getActivity(), SearchStore.class);
-//            startActivity(search);
-//        });
+        svStore.setOnClickListener(view1 -> {
+            svStore.setIconified(false);
+            Intent search = new Intent(getActivity(), SearchStore.class);
+            startActivity(search);
+        });
 
         getData();
         // Inflate the layout for this fragment

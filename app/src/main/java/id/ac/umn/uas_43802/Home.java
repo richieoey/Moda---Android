@@ -138,6 +138,14 @@ public class Home extends Fragment {
             }
         });
 
+        btnSee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent seeAll = new Intent(getActivity(), listProduk.class);
+                seeAll.putExtra("type", "all");
+                startActivity(seeAll);
+            }
+        });
 
 		btnCart.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -147,13 +155,7 @@ public class Home extends Fragment {
 			}
 		});
 
-		btnSee.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent seeAll = new Intent(getActivity(), listProduk.class);
-				startActivity(seeAll);
-			}
-		});
+
 
         SearchView svProduct = view.findViewById(R.id.searchView);
 

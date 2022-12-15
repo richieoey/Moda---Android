@@ -68,7 +68,7 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         txtToko.setText(dataStore.get(position).getToko().get("name").toString());
 
         RequestOptions options = new RequestOptions();
-        options.circleCrop();
+        options.centerInside();;
 
         Glide.with(holder.itemView.getContext()).load(dataStore.get(position).getPhotoUrl()).apply(options).into(ivProduk);
 
