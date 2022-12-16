@@ -59,7 +59,7 @@ public class StoreDetail extends AppCompatActivity {
         btnChatPenjual = findViewById(R.id.btn_chat_penjual);
 
         RequestOptions options = new RequestOptions();
-        options.circleCrop();
+        options.fitCenter();
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
