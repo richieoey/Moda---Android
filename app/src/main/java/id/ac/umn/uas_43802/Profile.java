@@ -140,6 +140,11 @@ public class Profile extends Fragment {
             startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
 
         });
+
+        binding.history.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity().getApplicationContext(), History.class));
+        });
+
 		return binding.getRoot();
 	}
 

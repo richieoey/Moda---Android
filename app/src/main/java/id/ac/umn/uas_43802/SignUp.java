@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -155,6 +156,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 		activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 			Bundle extras = result.getData().getExtras();
+
 			Bitmap imageBitmap = (Bitmap) extras.get("data");
 
 				WeakReference<Bitmap> result1 = new WeakReference<>(Bitmap.createScaledBitmap(imageBitmap,
@@ -189,6 +191,7 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 
 									firebaseUser.updateProfile(request).addOnCompleteListener(task1 -> {
 										user.put("uid", uid);
+
 										user.put(Constants.KEY_NAME, binding.fullname.getText().toString());
 										user.put(Constants.KEY_EMAIL, binding.email.getText().toString());
 										user.put(Constants.KEY_DATE, binding.date.getText().toString());
@@ -208,6 +211,9 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 														fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
 															String url = uri.toString();
 															user.put("photoUrl", url);
+															database.collection("userChats").document(uid).set(new HashMap<String, Object>(), SetOptions.merge());
+															database.collection("history").document(uid).set(new HashMap<String, Object>(), SetOptions.merge());
+															database.collection("cart").document(uid).set(new HashMap<String, Object>(), SetOptions.merge());
 															database.collection(Constants.KEY_COLLECTION_USERS)
 																	.add(user)
 																	.addOnSuccessListener(documentReference -> {
@@ -220,6 +226,8 @@ public class SignUp extends AppCompatActivity implements AdapterView.OnItemSelec
 																	.addOnFailureListener(exception -> {
 																		showToast(exception.getMessage());
 																	});
+
+
 														});
 													} else {
 														Toast.makeText(this, tasks.getException().getMessage(), Toast.LENGTH_SHORT).show();
