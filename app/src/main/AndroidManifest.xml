@@ -30,6 +30,7 @@
         <activity
             android:name=".StoreDetail"
             android:exported="false" />
+
         <activity
             android:name=".ChatActivity"
             android:exported="false" />

@@ -9,6 +9,9 @@
         <entry key="app/src/main/res/drawable/background_received_message.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/background_sent_message.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/button_click.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.214" />
+        <entry key="app/src/main/res/drawable/ic_baseline_female_24.xml" value="0.214" />
+        <entry key="app/src/main/res/drawable/ic_baseline_numbers_24.xml" value="0.214" />
         <entry key="app/src/main/res/drawable/ic_round_logout_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/listlogin.xml" value="0.1775" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.26615897258847443" />
