@@ -14,7 +14,7 @@ public class ProductModel implements Parcelable {
         this.uid = uid;
         this.name = name;
         this.description = description;
-        this.price = "Rp. " + price;
+        this.price = price;
         this.category = category;
         this.photoUrl = photoUrl;
         this.toko = toko;
