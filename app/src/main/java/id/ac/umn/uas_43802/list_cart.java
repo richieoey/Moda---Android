@@ -1,7 +1,9 @@
 package id.ac.umn.uas_43802;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,8 +36,10 @@ public class list_cart extends AppCompatActivity {
 
 	private ActivityListCartBinding binding;
 	RecyclerView rV;
+
 	CartAdapter cartAdapter;
-	ArrayList<CartModel> cart = new ArrayList<CartModel>();
+	private ArrayList<CartModel> cart = new ArrayList<CartModel>();
+	Button payment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class list_cart extends AppCompatActivity {
 		rV.setLayoutManager(layoutManager);
 		cartAdapter = new CartAdapter(cart, getApplicationContext());
 		rV.setAdapter(cartAdapter);
-
+		payment = findViewById(R.id.paymentBtn);
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
 		// Create a reference to the cities collection
@@ -80,12 +84,19 @@ public class list_cart extends AppCompatActivity {
 							}
 							cartAdapter = new CartAdapter(cart, getApplicationContext());
 							rV.setAdapter(cartAdapter);
+
+							if(cart.size() > 0){
+								payment.setOnClickListener(view -> {
+									Intent intent = new Intent(getApplicationContext(), Payment.class);
+									intent.putExtra("uid", cart.get(0).getProduct().getUid());
+									startActivity(intent);
+								});
+							}
 						} else {
 							Log.d("test", source + " data: null");
 						}
 					}
 				});
-//
 
 //		data = new ArrayList<>();
 //		for (int i = 0; i <  CartData.nama_toko.length; i++){
@@ -97,6 +108,7 @@ public class list_cart extends AppCompatActivity {
 //					CartData.harga_produk[i]
 //			));
 //		}
+
 
 		binding.backbutton.setOnClickListener(view -> list_cart.super.onBackPressed());
 

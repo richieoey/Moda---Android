@@ -63,7 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         Glide.with(context).load(data.get(position).getPhotoUrl()).apply(options).into(holder.hero);
         holder.name.setText(data.get(position).getName());
         holder.store.setText(data.get(position).getToko().get("name").toString());
-        holder.price.setText(data.get(position).getPrice());
+        holder.price.setText("Rp. "+data.get(position).getPrice());
 
         holder.cart.setOnClickListener(view -> {
             HashMap<String, Object> product = new HashMap<String, Object>();
