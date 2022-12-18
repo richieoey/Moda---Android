@@ -56,7 +56,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 		ProductModel produk = dataStore.get(position);
 
 		txtNama.setText(dataStore.get(position).getName());
-		txtHarga.setText(dataStore.get(position).getPrice());
+		txtHarga.setText("Rp. "+dataStore.get(position).getPrice());
 		txtToko.setText(dataStore.get(position).getToko().get("name").toString());
 
 		RequestOptions options = new RequestOptions();
