@@ -69,49 +69,67 @@ public class Payment extends AppCompatActivity {
                             }
 
                             price.setText(String.valueOf(totalPrice));
+
+
                             payBtn.setOnClickListener(view -> {
-                                ArrayList<HashMap<String, Object>> params = new ArrayList<>();
+                                if(checked != null){
+                                    ArrayList<HashMap<String, Object>> params = new ArrayList<>();
 
-                                for(int i = 0; i < cart.size(); i++){
-                                    HashMap<String, Object> product = new HashMap<String, Object>();
-                                    HashMap<String, Object> sendData = new HashMap<String, Object>();
-                                    HashMap<String, Object> finalData = new HashMap<String, Object>();
-                                    product.put("uid", cart.get(i).getProduct().getUid());
-                                    product.put("name", cart.get(i).getProduct().getName());
-                                    product.put("description", cart.get(i).getProduct().getDescription());
-                                    product.put("category", cart.get(i).getProduct().getCategory());
-                                    product.put("price", cart.get(i).getProduct().getPrice());
-                                    product.put("image", cart.get(i).getProduct().getPhotoUrl());
-                                    product.put("toko", cart.get(i).getProduct().getToko());
-                                    sendData.put("product", product);
-                                    sendData.put("quantity", cart.get(i).getQuantity());
-                                    finalData.put(user.getUid() + cart.get(i).getProduct().getUid(), sendData);
-                                    params.add(finalData);
-                                }
+                                    for(int i = 0; i < cart.size(); i++){
+                                        HashMap<String, Object> product = new HashMap<String, Object>();
+                                        HashMap<String, Object> sendData = new HashMap<String, Object>();
+                                        product.put("uid", cart.get(i).getProduct().getUid());
+                                        product.put("name", cart.get(i).getProduct().getName());
+                                        product.put("description", cart.get(i).getProduct().getDescription());
+                                        product.put("category", cart.get(i).getProduct().getCategory());
+                                        product.put("price", cart.get(i).getProduct().getPrice());
+                                        product.put("image", cart.get(i).getProduct().getPhotoUrl());
+                                        product.put("toko", cart.get(i).getProduct().getToko());
+                                        sendData.put("product", product);
+                                        sendData.put("quantity", cart.get(i).getQuantity());
+                                        params.add(sendData);
+                                    }
 
-                                for(int i = 0; i < cart.size(); i++){
-                                    int finalI = i;
-                                    db.collection("history").document(user.getUid()).update("products",FieldValue.arrayUnion(params.get(i)))
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    if(finalI == cart.size() - 1){
-                                                        Toast toast=Toast.makeText(getApplicationContext(),"Pembayaran Berhasil",Toast.LENGTH_SHORT);
-                                                        toast.setMargin(50,50);
-                                                        toast.show();
-                                                        new java.util.Timer().schedule(
-                                                                new java.util.TimerTask() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        Intent intent = new Intent(Payment.this, HomeUser.class);
-                                                                        startActivity(intent);
-                                                                    }
-                                                                },
-                                                                toast.getDuration()
-                                                        );
+                                    for(int i = 0; i < cart.size(); i++){
+                                        int finalI = i;
+                                        db.collection("history").document(user.getUid()).update("products",FieldValue.arrayUnion(params.get(i)))
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        if(finalI == cart.size() - 1){
+                                                            for(int j = 0; j < cart.size(); j++){
+                                                                int finalJ = j;
+                                                                Map<String,Object> updates = new HashMap<>();
+                                                                updates.put(user.getUid()+cart.get(j).getProduct().getUid(), FieldValue.delete());
+                                                                db.collection("cart").document(user.getUid()).update(updates)
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void unused) {
+                                                                                if(finalJ == cart.size() -1 ){
+                                                                                    Toast toast=Toast.makeText(getApplicationContext(),"Pembayaran Berhasil",Toast.LENGTH_SHORT);
+                                                                                    toast.show();
+                                                                                    new java.util.Timer().schedule(
+                                                                                            new java.util.TimerTask() {
+                                                                                                @Override
+                                                                                                public void run() {
+                                                                                                    Intent intent = new Intent(Payment.this, HomeUser.class);
+                                                                                                    startActivity(intent);
+                                                                                                }
+                                                                                            },
+                                                                                            toast.getDuration()
+                                                                                    );
+                                                                                }
+                                                                            }
+                                                                        });
+                                                            }
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                    }
+                                }
+                                else{
+                                    Toast toast=Toast.makeText(getApplicationContext(),"Silahkan isi metode pembayaran",Toast.LENGTH_SHORT);
+                                    toast.show();
                                 }
                             });
                         }

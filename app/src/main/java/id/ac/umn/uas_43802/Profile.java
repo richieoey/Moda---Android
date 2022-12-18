@@ -122,10 +122,6 @@ public class Profile extends Fragment {
 
                                 String gender = document.getData().get("gender").toString();
                                 binding.gender.setText(gender);
-
-
-                                Log.d("nama", nama);
-                                Log.d("Test", document.getId() + " => " + document.getData());
                             }
                         } else {
                             Log.d("error", "Error getting documents: ", task.getException());

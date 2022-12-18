@@ -34,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_below="@+id/image_store"
                 android:padding="10dp"
                 android:layout_weight="1"
                 android:gravity="center">
@@ -64,7 +63,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/nama_toko_search"
+                        android:id="@+id/nama_toko_history"
                         android:text="Budi Store"
                         android:paddingStart="0dp"
                         android:textSize="@dimen/_15sdp"
@@ -77,7 +76,7 @@
                         android:textSize="@dimen/_15sdp"
                         />
                     <TextView
-                        android:id="@+id/lokasi_toko"
+                        android:id="@+id/lokasi_toko_history"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="0dp"
