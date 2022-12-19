@@ -23,14 +23,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -51,6 +57,7 @@ public class register_seller extends AppCompatActivity {
 	private ActivityRegisterSellerBinding binding;
 	private FirebaseAuth mAuth;
 
+
 	private static final int MY_CAMERA_REQUEST_CODE = 100;
 
 
@@ -65,6 +72,7 @@ public class register_seller extends AppCompatActivity {
 
 		//Firebase Auth
 		mAuth = FirebaseAuth.getInstance();
+
 
 
 	}
@@ -136,6 +144,30 @@ public class register_seller extends AppCompatActivity {
 									.addOnFailureListener(exception -> {
 										showToast(exception.getMessage());
 									});
+
+							database.collection("user").whereEqualTo("uid", uid)
+									.get()
+									.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+										@Override
+										public void onComplete(@NonNull Task<QuerySnapshot> task) {
+											if (task.isSuccessful()) {
+												for (QueryDocumentSnapshot document : task.getResult()) {
+													database.collection("user").document(document.getId()).update("regSeller", true);
+//													Log.d(TAG, document.getId() + " => " + document.getData());
+												}
+											} else {
+												Log.d("error", "Error getting documents: ", task.getException());
+											}
+										}
+									});
+//									.addOnSuccessListener(queryDocumentSnapshots -> {
+//
+//										Log.d("seller", queryDocumentSnapshots.getDocuments().toString());
+//										Log.d("user", uid);
+//										database.collection("user").document(queryDocumentSnapshots.getDocuments().toString()).update("regSeller", true);
+//									});
+
+
 						});
 					} else {
 						Toast.makeText(this, tasks.getException().getMessage(), Toast.LENGTH_SHORT).show();
