@@ -117,6 +117,11 @@ public class StoreDetail extends AppCompatActivity {
         productAdapter = new ProductAdapter(product, getApplicationContext());
         rv.setAdapter(productAdapter);
 
+        btnChatPenjual.setOnClickListener(view -> {
+
+        });
+
+
         btnBack.setOnClickListener(view -> {
             StoreDetail.super.onBackPressed();
         });

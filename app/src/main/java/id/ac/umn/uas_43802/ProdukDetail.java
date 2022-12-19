@@ -31,7 +31,7 @@ import id.ac.umn.uas_43802.model.SearchProductModel;
 
 public class ProdukDetail extends AppCompatActivity {
 	ImageView ivProduk, addChat;
-	TextView tvHarga;
+	TextView tvHarga, description;
 	TextView tvNama;
 	ImageView ivBack;
 	Button addCart;
@@ -49,6 +49,7 @@ public class ProdukDetail extends AppCompatActivity {
 		addCart = findViewById(R.id.addCart);
 		addChat = findViewById(R.id.addChat);
 		cart = findViewById(R.id.cart_list);
+		description = findViewById(R.id.description);
 
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,6 +73,7 @@ public class ProdukDetail extends AppCompatActivity {
 							Glide.with(ProdukDetail.this).load(data.getPhotoUrl()).apply(options).into(ivProduk);
 							tvHarga.setText(data.getPrice());
 							tvNama.setText(data.getName());
+							description.setText(data.getDescription());
 
 							if(user.getUid().compareTo(data.getToko().get("uid").toString()) == 0 ){
 								addChat.setVisibility(View.GONE);

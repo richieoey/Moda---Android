@@ -159,6 +159,7 @@
 						android:layout_weight="1"
 						android:text="Testing Description "
 						android:textColor="#000000"
+						android:id="@+id/description"
 						android:layout_marginStart="10dp"
 						android:layout_marginEnd="10dp"
 						android:layout_gravity="center"
