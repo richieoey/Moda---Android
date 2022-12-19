@@ -47,6 +47,7 @@
 						android:scaleType="fitXY"
 						android:layout_gravity="center_vertical"
 						android:layout_marginRight="10dp"
+						android:id="@+id/cart_list"
 						android:background="@drawable/ic_baseline_shopping_cart_24" />
 				</LinearLayout>
 

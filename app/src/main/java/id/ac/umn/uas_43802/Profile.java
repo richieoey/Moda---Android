@@ -120,6 +120,11 @@ public class Profile extends Fragment {
                                 String phonenumber = document.getData().get("phone").toString();
                                 binding.phonenumber.setText(phonenumber);
 
+                                Boolean regseller = (Boolean) document.getData().get("regSeller");
+                                if(regseller){
+                                    binding.registerSeller.setVisibility(View.GONE);
+                                }
+
                                 String gender = document.getData().get("gender").toString();
                                 binding.gender.setText(gender);
                             }

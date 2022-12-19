@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class ProdukDetail extends AppCompatActivity {
 	Button addCart;
 	ProductModel data;
 	String combineId;
+	ImageButton cart;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +48,7 @@ public class ProdukDetail extends AppCompatActivity {
 		tvNama = findViewById(R.id.textNama);
 		addCart = findViewById(R.id.addCart);
 		addChat = findViewById(R.id.addChat);
+		cart = findViewById(R.id.cart_list);
 
 		FirebaseFirestore db = FirebaseFirestore.getInstance();
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -163,7 +166,10 @@ public class ProdukDetail extends AppCompatActivity {
 						}
 					});
 
-
+		cart.setOnClickListener(view -> {
+			Intent intent = new Intent(ProdukDetail.this, list_cart.class);
+			startActivity(intent);
+		});
 
 		ivBack = findViewById(R.id.backHome);
 		ivBack.setOnClickListener(view -> ProdukDetail.super.onBackPressed());
